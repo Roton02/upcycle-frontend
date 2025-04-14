@@ -14,7 +14,13 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -71,7 +77,6 @@ export default function Navbar() {
       }`}
     >
       {/* Top bar */}
-
       <div className="border-b">
         <div className="sm:container sm:mx-auto px-4 flex items-center justify-between h-16">
           {/* Logo */}
@@ -128,7 +133,6 @@ export default function Navbar() {
       </div>
 
       {/* Bottom bar */}
-
       <div className="container mx-auto px-4 flex items-center justify-between h-12">
         {/* Categories dropdown - desktop */}
         <div className="hidden md:flex items-center">
@@ -142,7 +146,10 @@ export default function Navbar() {
                 CATEGORIES
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56 bg-white">
+            <DropdownMenuContent
+              align="start"
+              className="w-56 bg-white dark:bg-slate-900"
+            >
               {categories.map((category) => (
                 <DropdownMenuItem key={category.name} asChild>
                   <Link href={category.href} className="cursor-pointer">
@@ -158,11 +165,20 @@ export default function Navbar() {
         <div className="md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Open menu">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+            <SheetContent
+              side="left"
+              className="w-[300px] sm:w-[400px] bg-white text-black dark:bg-slate-900 dark:text-white"
+            >
+              {/* Add DialogTitle and DialogDescription for accessibility */}
+              <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+              <SheetDescription className="sr-only">
+                Menu containing categories and navigation links for UpCycle.
+              </SheetDescription>
+
               <div className="py-6 space-y-6">
                 <div className="px-3 space-y-1">
                   <h3 className="text-sm font-medium">CATEGORIES</h3>
