@@ -2,6 +2,7 @@
 
 import Banner from "@/components/modules/home/Banner";
 import NewArrivals from "@/components/modules/home/NewArrivals";
+import NewsletterSection from "@/components/modules/home/NewsLetterSection";
 import SupportFeatures from "@/components/modules/home/SupportFeatures";
 import { useUser } from "@/context/UserContext";
 
@@ -13,6 +14,7 @@ const HomePage = () => {
       <Banner />
       <SupportFeatures />
       <NewArrivals />
+      <NewsletterSection />
     </div>
   );
 };
