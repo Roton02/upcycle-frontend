@@ -21,7 +21,7 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="py-12   text-gray-900 dark:text-gray-100">
+    <section className="py-12 bg-slate-100 dark:bg-gray-800  text-gray-900 dark:text-gray-100">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8 lg:gap-16">
           {/* Left Column - Newsletter Signup */}

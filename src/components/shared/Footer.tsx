@@ -8,14 +8,14 @@ export default function Footer() {
   const [helpOpen, setHelpOpen] = useState(false);
 
   return (
-    <footer className="bg-slate-900 text-white dark:bg-slate-900 dark:text-white light:bg-white light:text-slate-900">
+    <footer className="text-gray-900 dark:text-gray-100">
       <div className="container mx-auto px-4 py-12">
         {/* Top section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand section */}
           <div className="space-y-4">
             <h2 className="text-xl font-bold">UpCycle</h2>
-            <p className="text-sm text-slate-300 dark:text-slate-300 light:text-slate-600">
+            <p className="text-sm text-gray-900 dark:text-gray-100">
               Got questions? Contact us 24/7
             </p>
 
@@ -64,7 +64,7 @@ export default function Footer() {
           {/* Company section */}
           <div>
             <h3 className="font-semibold mb-4">Company</h3>
-            <ul className="space-y-2 text-sm text-slate-300 dark:text-slate-300 light:text-slate-600">
+            <ul className="space-y-2 text-sm text-gray-900 dark:text-gray-100">
               <li>
                 <Link
                   href="#"
@@ -111,7 +111,7 @@ export default function Footer() {
           {/* Account section */}
           <div>
             <h3 className="font-semibold mb-4">Account</h3>
-            <ul className="space-y-2 text-sm text-slate-300 dark:text-slate-300 light:text-slate-600">
+            <ul className="space-y-2 text-sm text-gray-900 dark:text-gray-100">
               <li>
                 <Link
                   href="#"
@@ -166,7 +166,7 @@ export default function Footer() {
           {/* Customer service section */}
           <div>
             <h3 className="font-semibold mb-4">Customer service</h3>
-            <ul className="space-y-2 text-sm text-slate-300 dark:text-slate-300 light:text-slate-600">
+            <ul className="space-y-2 text-sm text-gray-900 dark:text-gray-100">
               <li>
                 <Link
                   href="#"
@@ -221,7 +221,7 @@ export default function Footer() {
 
         {/* Categories section */}
         <div className="mt-12">
-          <ul className="flex flex-wrap gap-4 text-sm text-slate-300 dark:text-slate-300 light:text-slate-600">
+          <ul className="flex flex-wrap gap-4 text-sm text-gray-900 dark:text-gray-100">
             <li>
               <Link
                 href="#"
