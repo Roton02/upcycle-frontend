@@ -8,7 +8,7 @@ import { Heart, RefreshCw, ShoppingCart } from "lucide-react";
 
 export default function ProductsCardOnDetailsPage() {
     return (
-        <div className="p-6 border border-[#E0E5EB] rounded-[8px]">
+        <div className="w-full p-6 border border-[#E0E5EB] rounded-[8px]">
             <div className="flex items-center gap-4 mb-7">
                 <div>
                     <Image
@@ -25,20 +25,20 @@ export default function ProductsCardOnDetailsPage() {
                         />
                         68
                     </div>
-                    <h2 className="text-sm text-[#181D25] font-medium">Apple iPhone 14 Plus 128GB Blue</h2>
-                    <p className="text-xl text-[#181D25] font-semibold">$940.00</p>
+                    <h2 className="text-sm text-[#181D25] font-medium dark:text-gray-100">Apple iPhone 14 Plus 128GB Blue</h2>
+                    <p className="text-xl text-[#181D25] font-semibold dark:text-gray-100">$940.00</p>
                 </div>
             </div>
 
-            <div className="flex items-center gap-4">
-                <Button className="w-full text-sm text-white font-medium bg-[#F55266] hover:bg-[#cd4454] rounded-[8px]">
+            <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 items-center gap-4">
+                <Button className="w-full md:col-span-2 lg:col-span-1  text-sm text-white font-medium bg-[#F55266] hover:bg-[#cd4454] rounded-[8px]">
                     <ShoppingCart />
                     Add to cart
                 </Button>
-                <Button className="text-sm text--[#333D4C] font-medium bg-[#EEF1F6] hover:bg-[#c9ccd0] rounded-[8px]">
+                <Button className="text-sm text-[#333D4C] font-medium bg-[#EEF1F6] hover:bg-[#c9ccd0] rounded-[8px]">
                     <Heart />
                 </Button>
-                <Button className="text-sm text--[#333D4C] font-medium bg-[#EEF1F6] hover:bg-[#c9ccd0] rounded-[8px]">
+                <Button className="text-sm text-[#333D4C] font-medium bg-[#EEF1F6] hover:bg-[#c9ccd0] rounded-[8px]">
                     <RefreshCw />
                 </Button>
             </div>
