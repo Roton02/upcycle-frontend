@@ -24,7 +24,9 @@ export default function ReviewSection() {
   return (
     <div className="my-16">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl text-[#181D25] font-semibold dark:text-gray-100">Reviews </h2>
+        <h2 className="text-3xl text-[#181D25] font-semibold dark:text-gray-100">
+          Reviews{" "}
+        </h2>
         <Button className="bg-[#EEF1F6] rounded-[8px] text-[#333D4C] text-sm font-medium">
           <PenLine /> Leave a review
         </Button>
@@ -75,8 +77,12 @@ export default function ReviewSection() {
       {/* customer review */}
       <div className="my-8 border-b-2 border-b-[#E0E5EB] pb-4">
         <div className="flex justify-between items-center">
-          <h3 className="text-[#181D25] font-semibold dark:text-gray-100">Rafael Marquez</h3>
-          <p className="text-sm text-[#6C727F] font-normal dark:text-gray-300">June 28, 2023</p>
+          <h3 className="text-[#181D25] font-semibold dark:text-gray-100">
+            Rafael Marquez
+          </h3>
+          <p className="text-sm text-[#6C727F] font-normal dark:text-gray-300">
+            June 28, 2023
+          </p>
         </div>
         <Rating
           style={{ maxWidth: 80 }}
@@ -86,12 +92,20 @@ export default function ReviewSection() {
         />
         <div className="flex gap-8 my-3">
           <div className="flex items-center gap-1">
-            <h3 className="text-sm text-[#1B2027] font-medium dark:text-gray-100">Color:</h3>
-            <p className="text-sm text-[#4E5562] font-normal dark:text-gray-400 ml-3">Black</p>
+            <h3 className="text-sm text-[#1B2027] font-medium dark:text-gray-100">
+              Color:
+            </h3>
+            <p className="text-sm text-[#4E5562] font-normal dark:text-gray-400 ml-3">
+              Black
+            </p>
           </div>
           <div className="flex items-center gap-1">
-            <h3 className="text-sm text-[#1B2027] font-medium dark:text-gray-100">Model:</h3>
-            <p className="text-sm text-[#4E5562] font-normal dark:text-gray-400 ml-3">256GB</p>
+            <h3 className="text-sm text-[#1B2027] font-medium dark:text-gray-100">
+              Model:
+            </h3>
+            <p className="text-sm text-[#4E5562] font-normal dark:text-gray-400 ml-3">
+              256GB
+            </p>
           </div>
         </div>
 
@@ -104,14 +118,18 @@ export default function ReviewSection() {
         </p>
 
         <div className="flex items-center mb-2">
-          <h3 className="text-sm text-[#181D25] font-medium dark:text-gray-100">Pros:</h3>
+          <h3 className="text-sm text-[#181D25] font-medium dark:text-gray-100">
+            Pros:
+          </h3>
           <p className="text-sm text-[#4E5562] font-normal dark:text-gray-400 ml-3">
             Consequuntur magni, voluptatem sequi, tempora
           </p>
         </div>
 
         <div className="flex items-center mb-3">
-          <h3 className="text-sm text-[#181D25] font-medium dark:text-gray-100">Cons:</h3>
+          <h3 className="text-sm text-[#181D25] font-medium dark:text-gray-100">
+            Cons:
+          </h3>
           <p className="text-sm text-[#4E5562] font-normal dark:text-gray-400 ml-3">
             Architecto beatae, quis autem
           </p>
