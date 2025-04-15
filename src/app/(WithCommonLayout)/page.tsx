@@ -1,5 +1,9 @@
 "use client";
 
+import Banner from "@/components/modules/home/Banner";
+import NewArrivals from "@/components/modules/home/NewArrivals";
+import NewsletterSection from "@/components/modules/home/NewsLetterSection";
+import SupportFeatures from "@/components/modules/home/SupportFeatures";
 import { useUser } from "@/context/UserContext";
 
 const HomePage = () => {
@@ -7,7 +11,10 @@ const HomePage = () => {
   console.log(user);
   return (
     <div>
-      <h1>Welcome To UpCycle Home Page</h1>
+      <Banner />
+      <SupportFeatures />
+      <NewArrivals />
+      <NewsletterSection />
     </div>
   );
 };
