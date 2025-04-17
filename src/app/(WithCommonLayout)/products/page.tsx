@@ -21,8 +21,9 @@ export default function AllProduct() {
       deliveryOptions: [],
       description: "A well-maintained Shimano 105 groupset road bike.",
       images: [
+        "https://img.freepik.com/premium-psd/laptop-mock-up-isolated_1310-1458.jpg?w=1380",
+        "https://img.freepik.com/free-photo/laptop-wooden-table_53876-20635.jpg?t=st=1744916989~exp=1744920589~hmac=8bb760f13feea4c8462e70fa7f91a607db66239d7d8fb43e9dc1a78683b9f0a6&w=1380",
         "https://img.freepik.com/free-photo/vr-glasses-gaming_23-2151138417.jpg?t=st=1744733427~exp=1744737027~hmac=e23c1f95e936d8befdd5d7782db561d26c96ec391ddd56342904afb0fccd2e8c&w=1380",
-        "../../../../public/iphone-14-plus.png",
       ],
       price: 45000,
       status: "available",
@@ -84,7 +85,6 @@ export default function AllProduct() {
           </div>
         </div>
       </div>
-
 
       <div className="flex flex-col md:flex-row gap-6 mx-auto w-full">
         {/* sidebar */}

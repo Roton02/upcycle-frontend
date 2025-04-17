@@ -16,13 +16,13 @@ export default function ProductCard({ product }: { product: IListing }) {
   return (
     <div>
       <Card className="rounded-[8px]">
-        <div className="px-6 relative">
+        <div className="px-3 relative">
           <Image
             src={product.images[0]}
             width={300}
             height={300}
             alt="product image"
-            className="w-[300px] h-[300px] object-fill p-6 mx-auto"
+            className="w-[400px] h-[300px] object-contain mx-auto"
           />
 
           {
