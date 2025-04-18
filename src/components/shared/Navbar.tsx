@@ -35,7 +35,7 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [cartItems, setCartItems] = useState(2);
 
-  // Handle scroll effect
+  // Handle scroll effect by this useEffect
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
