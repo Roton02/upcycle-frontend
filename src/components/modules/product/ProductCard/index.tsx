@@ -1,15 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import { IListing } from "@/types";
-import Image from "next/image";
-import productImage from "../../../../../public/iphone-14-plus.png";
 import { ShoppingCart } from "lucide-react";
+import Image from "next/image";
 
 export default function ProductCard({ product }: { product: IListing }) {
   console.log(product.images[0]);
