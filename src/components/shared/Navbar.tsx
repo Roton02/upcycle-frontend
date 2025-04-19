@@ -81,10 +81,7 @@ export default function Navbar() {
       <div className="border-b">
         <div className="sm:container sm:mx-auto px-4 flex items-center justify-between h-16">
           {/* Logo */}
-          <Link
-            href="/"
-            className="sm:absolute sm:left-1/2 sm:transform sm:-translate-x-1/2 font-bold text-2xl"
-          >
+          <Link href="/" className="font-bold text-2xl">
             UpCycle
           </Link>
 
@@ -110,11 +107,6 @@ export default function Navbar() {
               <Heart className="h-5 w-5" />
             </Button>
 
-            {/* Account */}
-            <Button variant="ghost" size="icon" aria-label="Account">
-              <User className="h-5 w-5" />
-            </Button>
-
             {/* Cart */}
             <Button
               variant="ghost"
@@ -128,6 +120,11 @@ export default function Navbar() {
                   {cartItems}
                 </span>
               )}
+            </Button>
+
+            {/* Account */}
+            <Button variant="ghost" size="icon" aria-label="Account">
+              <User className="h-5 w-5" />
             </Button>
           </div>
         </div>

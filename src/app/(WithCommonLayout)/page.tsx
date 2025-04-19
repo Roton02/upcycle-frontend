@@ -9,8 +9,8 @@ import TrendingProducts from "@/components/modules/home/TrendingProducts";
 import { useUser } from "@/context/UserContext";
 
 const HomePage = () => {
-  const user = useUser();
-  console.log(user);
+  const { user } = useUser();
+  // console.log(user);
   return (
     <div>
       <Banner />
