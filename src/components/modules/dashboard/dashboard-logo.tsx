@@ -13,9 +13,11 @@ export function DashboardLogo() {
           size="lg"
           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
         >
-          <div className="flex aspect-square size-8 items-center justify-center rounded-lg ">
+          <div className="flex aspect-square size-10 items-center justify-center rounded-lg ">
             <Link href="/">
-              <h1 className="rounded-lg text-bold font-semibold">Upcycle</h1>
+              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-gray-300 drop-shadow-lg">
+                Upcycle
+              </h1>
             </Link>
           </div>
         </SidebarMenuButton>
