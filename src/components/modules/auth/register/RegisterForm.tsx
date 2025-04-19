@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import registerImage from "../../../../../public/login-img.png";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -10,16 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { registerUser } from "@/services/AuthService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Facebook, Github, GoalIcon, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import registerImage from "../../../../../public/login-img.png";
 import { registrationSchema } from "./registerValidation";
+import { useState } from "react";
+import { registerUser } from "@/services/AuthService";
+import { toast } from "sonner";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +47,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="grid md:grid-cols-2 w-full h-screen p-3">
+    <div className="grid md:grid-cols-2 grid-cols-1 w-full h-screen p-3">
       {/* left colum */}
       <div className="flex flex-col w-full md:max-w-[480px] ml-auto px-6 py-10">
         <div className="mb-8">{/* <h2>Logo</h2> */}</div>
@@ -55,8 +55,8 @@ export default function RegisterForm() {
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-[400px]">
             <div>
-              <h2 className="text-3xl font-semibold text-[#181D25]">
-                Welcome back
+              <h2 className="text-3xl text-center font-semibold text-[#181D25]">
+                Welcome
               </h2>
               <p className="text-sm font-normal text-[#4E5562] mt-4 mb-6">
                 Already have an account?
@@ -168,7 +168,7 @@ export default function RegisterForm() {
               <div className="h-[2px] flex-1 bg-[#E0E5EB]" />
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <GoalIcon />
                 <span className="text-[#333D4C] font-normal">Google</span>
@@ -186,7 +186,7 @@ export default function RegisterForm() {
         </div>
       </div>
 
-      <div className="w-full bg-gradient-to-r from-[#ACCBEE] to-[#E7F0FD] overflow-hidden rounded-2xl">
+      <div className="w-full sm:block hidden bg-gradient-to-r from-[#ACCBEE] to-[#E7F0FD] overflow-hidden rounded-2xl">
         <Image
           src={registerImage}
           alt="login-image"
