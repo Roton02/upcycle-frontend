@@ -6,9 +6,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -16,8 +17,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useUser } from "@/context/UserContext";
 import {
   Heart,
+  LogIn,
+  LogOut,
   Menu,
   Moon,
   Search,
@@ -28,12 +32,16 @@ import {
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { logoutUser } from "@/services/AuthService";
 
 export default function Navbar() {
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
   const [cartItems, setCartItems] = useState(2);
+  const { user, setIsLoading } = useUser();
+  console.log(user);
 
   // Handle scroll effect by this useEffect
   useEffect(() => {
@@ -52,6 +60,12 @@ export default function Navbar() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // handle logout functionality
+  const handleLogout = () => {
+    logoutUser();
+    setIsLoading(true)
+  };
 
   const navLinks = [
     { name: "Collections", href: "/collections" },
@@ -123,9 +137,44 @@ export default function Navbar() {
             </Button>
 
             {/* Account */}
-            <Button variant="ghost" size="icon" aria-label="Account">
-              <User className="h-5 w-5" />
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="cursor-pointer">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>User</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-white text-black rounded w-full mr-4">
+                  <DropdownMenuLabel className="text-center border-b border-b-gray-300">
+                    {user?.username}
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="text-gray-500" />
+                  <DropdownMenuItem className="border-b border-b-gray-300">
+                    <Link href={"/profile"} className="hover:text-red-500">Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="border-b border-b-gray-300">
+                    <Link href={`/dashboard`}  className="hover:text-red-500">Dashboard</Link>
+                  </DropdownMenuItem>
+                  {/* <DropdownMenuItem>My Shop</DropdownMenuItem> */}
+
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="bg-red-500 m-1 mt-2"
+                  >
+                    <LogOut />
+                    <span className="hover:text-red-500">Log Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href={'/login'}>
+              <Button  variant="ghost" size="icon" aria-label="Favorites">
+                <LogIn className="h-5 w-5" />
+              </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

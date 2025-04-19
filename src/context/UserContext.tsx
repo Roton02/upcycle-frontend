@@ -24,21 +24,15 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const currentUser = await getCurrentUser();
-        setUser(currentUser);
-      } catch (err) {
-        console.error("Failed to fetch user:", err);
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const handleUser = async () => {
+    const user = await getCurrentUser();
+    setUser(user);
+    setIsLoading(false);
+  };
 
-    fetchUser();
-  }, []);
+  useEffect(() => {
+    handleUser();
+  }, [isLoading]);
 
   return (
     <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
