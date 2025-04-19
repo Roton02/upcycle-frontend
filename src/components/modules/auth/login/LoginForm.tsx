@@ -21,12 +21,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "@/services/AuthService";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirectPath");
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const { setIsLoading } = useUser();
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
@@ -36,10 +38,15 @@ export default function LoginForm() {
   } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    try {
-      const res = await loginUser(data);
+    const payload = {
+      identifire: data?.email,
+      password: data?.password,
+    };
 
+    try {
+      const res = await loginUser(payload);
+
+      setIsLoading(true);
       if (!res.success) toast.error(res.message);
       if (res.success) {
         toast.success(res.message);
@@ -63,14 +70,14 @@ export default function LoginForm() {
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-[400px]">
             <div>
-              <h2 className="text-3xl text-center font-semibold text-[#181D25]">
+              <h2 className="text-3xl text-center font-semibold text-[#181D25] dark:text-gray-100">
                 Welcome back
               </h2>
-              <p className="text-sm font-normal text-[#4E5562] mt-4 mb-6">
+              <p className="text-sm font-normal text-[#4E5562] mt-4 mb-6 dark:text-gray-300">
                 Do not have an account?
                 <Link
                   href={"/register"}
-                  className="text-sm text-[#181D25] font-medium cursor-pointer underline ml-2"
+                  className="text-sm text-[#181D25] font-medium cursor-pointer underline ml-2 dark:text-gray-100"
                 >
                   Create an account
                 </Link>
@@ -92,7 +99,7 @@ export default function LoginForm() {
                           {...field}
                           value={field.value || ""}
                           placeholder="Email"
-                          className="rounded-[8px] w-full h-12 border-[1.5px] border-[#CAD0D9] placeholder:text-[#9CA3AF]"
+                          className="rounded-[8px] w-full h-12 border-[1.5px] border-[#CAD0D9] placeholder:text-[#9CA3AF] dark:placeholder:text-gray-200"
                         />
                       </FormControl>
                       <FormMessage className="text-red-400" />
@@ -112,7 +119,7 @@ export default function LoginForm() {
                             {...field}
                             value={field.value || ""}
                             placeholder="Password"
-                            className="rounded-[8px] w-full h-12 border-[1.5px] border-[#CAD0D9] placeholder:text-[#9CA3AF]"
+                            className="rounded-[8px] w-full h-12 border-[1.5px] border-[#CAD0D9] placeholder:text-[#9CA3AF] dark:placeholder:text-gray-200"
                           />
                         </FormControl>
                         <FormMessage className="text-red-400" />
@@ -132,11 +139,11 @@ export default function LoginForm() {
                 <div className="flex justify-between">
                   <div className="flex items-center gap-2">
                     <Checkbox className="text-[#9CA3AF] rounded-[2px]" />
-                    <p className="text-sm text-[#4E5562] font-normal">
+                    <p className="text-sm text-[#4E5562] font-normal dark:text-gray-300">
                       Remember for 30 days
                     </p>
                   </div>
-                  <p className="text-sm text-[#333D4C] font-normal">
+                  <p className="text-sm text-[#333D4C] font-normal dark:text-gray-200">
                     Forgot password?
                   </p>
                 </div>
@@ -156,7 +163,7 @@ export default function LoginForm() {
 
             <div className="flex items-center justify-center gap-4 my-6">
               <div className="h-[2px] flex-1 bg-[#E0E5EB]" />
-              <span className="text-base font-medium text-[#333D4C]">
+              <span className="text-base font-medium text-[#333D4C] dark:text-gray-300">
                 or continue with
               </span>
               <div className="h-[2px] flex-1 bg-[#E0E5EB]" />
@@ -165,15 +172,21 @@ export default function LoginForm() {
             <div className="flex flex-wrap justify-center gap-4">
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <GoalIcon />
-                <span className="text-[#333D4C] font-normal">Google</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  Google
+                </span>
               </Button>
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <Facebook />
-                <span className="text-[#333D4C] font-normal">Facebook</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  Facebook
+                </span>
               </Button>
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <Github />
-                <span className="text-[#333D4C] font-normal">GitHub</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  GitHub
+                </span>
               </Button>
             </div>
           </div>
