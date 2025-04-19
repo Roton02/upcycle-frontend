@@ -18,6 +18,11 @@ export const UserDashboardNavigation = [
     icon: ShoppingCart,
   },
   {
+    title: "Add Product",
+    url: "/dashboard/add-product",
+    icon: List,
+  },
+  {
     title: "Manage Listings",
     url: "/dashboard/listing",
     icon: List,
