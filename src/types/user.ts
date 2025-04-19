@@ -1,8 +1,8 @@
 export interface IUser {
-  userId: string;
-  name: string;
+  _id: string;
+  username: string;
   email: string;
-  phoneNumber: string;
+  phone: string;
   role: "user" | "admin";
   iat?: number;
   exp?: number;
