@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
+import loginImg from "../../../../../public/login-img.png";
 import {
   Form,
   FormControl,
@@ -10,23 +9,23 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { loginUser } from "@/services/AuthService";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Facebook, Github, GoalIcon, Loader2 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
-import loginImg from "../../../../../public/login-img.png";
+import Link from "next/link";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Eye, EyeOff, Facebook, Github, GoalIcon, Loader2 } from "lucide-react";
+import { useState } from "react";
 import { loginSchema } from "./loginValidation";
-// import { useRouter, useSearchParams } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginUser } from "@/services/AuthService";
+import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
-  // const searchParams = useSearchParams();
-  // const redirect = searchParams.get('redirectPath')
-  // const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirectPath");
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -44,7 +43,11 @@ export default function LoginForm() {
       if (!res.success) toast.error(res.message);
       if (res.success) {
         toast.success(res.message);
-        // redirect ? router.push(redirect) : router.push('/')
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/");
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -52,7 +55,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="grid md:grid-cols-2 w-full h-screen p-3">
+    <div className="grid grid-cols-1 md:grid-cols-2 w-full h-screen p-3">
       {/* left colum */}
       <div className="flex flex-col w-full md:max-w-[480px] ml-auto px-6 py-10">
         <div className="mb-8">{/* <h2>Logo</h2> */}</div>
@@ -60,7 +63,7 @@ export default function LoginForm() {
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-[400px]">
             <div>
-              <h2 className="text-3xl font-semibold text-[#181D25]">
+              <h2 className="text-3xl text-center font-semibold text-[#181D25]">
                 Welcome back
               </h2>
               <p className="text-sm font-normal text-[#4E5562] mt-4 mb-6">
@@ -159,7 +162,7 @@ export default function LoginForm() {
               <div className="h-[2px] flex-1 bg-[#E0E5EB]" />
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <GoalIcon />
                 <span className="text-[#333D4C] font-normal">Google</span>
@@ -177,7 +180,7 @@ export default function LoginForm() {
         </div>
       </div>
 
-      <div className="w-full bg-gradient-to-r from-[#ACCBEE] to-[#E7F0FD] overflow-hidden rounded-2xl">
+      <div className="w-full sm:block hidden  bg-gradient-to-r from-[#ACCBEE] to-[#E7F0FD] overflow-hidden rounded-2xl">
         <Image src={loginImg} alt="login-image" className="w-full h-full" />
       </div>
     </div>
