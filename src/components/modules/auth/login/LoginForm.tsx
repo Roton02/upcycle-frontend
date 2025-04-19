@@ -21,12 +21,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "@/services/AuthService";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export default function LoginForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirectPath");
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const { setIsLoading } = useUser();
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
@@ -44,6 +46,7 @@ export default function LoginForm() {
     try {
       const res = await loginUser(payload);
 
+      setIsLoading(true);
       if (!res.success) toast.error(res.message);
       if (res.success) {
         toast.success(res.message);
@@ -169,15 +172,21 @@ export default function LoginForm() {
             <div className="flex flex-wrap justify-center gap-4">
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <GoalIcon />
-                <span className="text-[#333D4C] font-normal dark:text-gray-300">Google</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  Google
+                </span>
               </Button>
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <Facebook />
-                <span className="text-[#333D4C] font-normal dark:text-gray-300">Facebook</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  Facebook
+                </span>
               </Button>
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <Github />
-                <span className="text-[#333D4C] font-normal dark:text-gray-300">GitHub</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  GitHub
+                </span>
               </Button>
             </div>
           </div>
