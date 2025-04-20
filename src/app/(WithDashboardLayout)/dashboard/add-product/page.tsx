@@ -1,17 +1,29 @@
 "use client";
+import { addProduct } from "@/services/Products";
 import { useState, FormEvent } from "react";
+import { toast } from "sonner";
 
-interface ProductFormData {
+export interface ProductFormData {
   title: string;
   description: string;
   category: string;
+  brand: string;
+  status: string;
   price: number;
   condition: string;
-  images: File[];
+  images: File[] | string[];
 }
 
-interface Errors extends Partial<ProductFormData> {
+// extends Partial<ProductFormData>
+interface Errors {
+  title?: string;
+  description?: string;
+  category?: string;
+  brand?: string;
+  status?: string;
+  condition?: string;
   images?: string;
+  price?: string;
 }
 
 export default function Page() {
@@ -19,6 +31,8 @@ export default function Page() {
     title: "",
     description: "",
     category: "",
+    brand: "",
+    status: "",
     price: 0,
     condition: "",
     images: [],
@@ -29,6 +43,19 @@ export default function Page() {
 
   const categories = ["Electronics", "Clothing", "Books", "Home", "Other"];
   const conditions = ["New", "Like New", "Good", "Fair", "Poor"];
+  const brands = [
+    "Apple",
+    "Samsung",
+    "Nike",
+    "Adidas",
+    "Penguin",
+    "HarperCollins",
+    "IKEA",
+    "Dyson",
+    "Generic",
+    "Local Brand",
+  ];
+  const statuses = ["available", "sold", "reserved"];
 
   const cloudinaryCloudName = "djn7zs75x";
   const cloudinaryUploadPreset = "upcycle";
@@ -74,6 +101,8 @@ export default function Page() {
     if (!formData.description)
       newErrors.description = "Description is required";
     if (!formData.category) newErrors.category = "Category is required";
+    if (!formData.brand) newErrors.brand = "Brand is required";
+    if (!formData.status) newErrors.status = "Status is required";
     if (formData.price <= 0) newErrors.price = "Price must be greater than 0";
     if (!formData.condition) newErrors.condition = "Condition is required";
     if (formData.images.length === 0)
@@ -88,8 +117,9 @@ export default function Page() {
     try {
       // Upload images to Cloudinary
       const imageUrls = await Promise.all(
-        formData.images.map((file) => uploadImageToCloudinary(file))
+        (formData.images as File[]).map((file) => uploadImageToCloudinary(file))
       );
+      console.log(imageUrls);
 
       // Prepare submission data
       const submissionData = {
@@ -97,31 +127,30 @@ export default function Page() {
         images: imageUrls, // Replace File[] with Cloudinary URLs
       };
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/listings`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submissionData),
-      });
+      const res = await addProduct(submissionData);
 
-      if (!res.ok) {
-        throw new Error(`Failed to submit product: ${res.statusText}`);
+      console.log("submitData =>", submissionData, "res data =>", res);
+
+      console.log("Add product response:", res);
+      if (!res.success) {
+        toast.error(res.message);
+        throw new Error(`Failed to submit product`);
       }
 
-      console.log("Submitting:", submissionData);
-      alert("Product submitted successfully!");
+      if (res.success) toast.success(res.message);
       setFormData({
         title: "",
         description: "",
         category: "",
+        brand: "",
+        status: "",
         price: 0,
         condition: "",
         images: [],
       });
     } catch (error) {
       console.error("Submission error:", error);
-      alert("Failed to submit product");
+      // alert("Failed to submit product");
     } finally {
       setIsSubmitting(false);
     }
@@ -193,6 +222,64 @@ export default function Page() {
               )}
             </div>
 
+            {/* Brand */}
+            <div>
+              <label
+                htmlFor="brand"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Brand <span className="text-red-500">*</span>
+              </label>
+              <select
+                id="brand"
+                name="brand"
+                value={formData.brand}
+                onChange={(e) =>
+                  setFormData({ ...formData, brand: e.target.value })
+                }
+                className="mt-1 block w-full rounded-lg border border-gray-200 bg-white/50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all duration-300 hover:border-indigo-300 shadow-sm sm:text-sm"
+              >
+                <option value="">Select brand</option>
+                {brands.map((brand) => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
+              {errors.brand && (
+                <p className="mt-1 text-xs text-red-500">{errors.brand}</p>
+              )}
+            </div>
+
+            {/* Status */}
+            <div>
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Status <span className="text-red-500">*</span>
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.value })
+                }
+                className="mt-1 block w-full rounded-lg border border-gray-200 bg-white/50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all duration-300 hover:border-indigo-300 shadow-sm sm:text-sm"
+              >
+                <option value="">Select status</option>
+                {statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              {errors.status && (
+                <p className="mt-1 text-xs text-red-500">{errors.status}</p>
+              )}
+            </div>
+
             {/* Price */}
             <div>
               <label
@@ -211,7 +298,8 @@ export default function Page() {
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    price: parseFloat(e.target.value),
+                    price:
+                      e.target.value === "" ? 0 : parseFloat(e.target.value),
                   })
                 }
                 className="mt-1 block w-full rounded-lg border border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all duration-300 hover:border-indigo-300 shadow-sm sm:text-sm"
