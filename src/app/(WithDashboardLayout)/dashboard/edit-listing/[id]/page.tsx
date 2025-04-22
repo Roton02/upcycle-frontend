@@ -1,64 +1,89 @@
 "use client";
-import { addProduct } from "@/services/Products";
-import { useState, FormEvent } from "react";
-import { toast } from "sonner";
+import { useState, useEffect, FormEvent } from "react";
+import { useRouter, useParams } from "next/navigation";
+import toast from "react-hot-toast";
+import Image from "next/image";
 
-export interface ProductFormData {
+interface ProductFormData {
   title: string;
   description: string;
   category: string;
-  brand: string;
-  status: string;
   price: number;
   condition: string;
   images: File[] | string[];
 }
 
-// extends Partial<ProductFormData>
-interface Errors {
-  title?: string;
-  description?: string;
-  category?: string;
-  brand?: string;
-  status?: string;
-  condition?: string;
+interface Errors extends Partial<ProductFormData> {
   images?: string;
-  price?: string;
 }
 
-export default function Page() {
+function EditListingPage() {
+  const router = useRouter();
+  const { id } = useParams();
   const [formData, setFormData] = useState<ProductFormData>({
     title: "",
     description: "",
     category: "",
-    brand: "",
-    status: "",
     price: 0,
     condition: "",
     images: [],
   });
-
   const [errors, setErrors] = useState<Errors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const categories = ["Electronics", "Clothing", "Books", "Home", "Other"];
   const conditions = ["New", "Like New", "Good", "Fair", "Poor"];
-  const brands = [
-    "Apple",
-    "Samsung",
-    "Nike",
-    "Adidas",
-    "Penguin",
-    "HarperCollins",
-    "IKEA",
-    "Dyson",
-    "Generic",
-    "Local Brand",
-  ];
-  const statuses = ["available", "sold", "reserved"];
-
   const cloudinaryCloudName = "djn7zs75x";
   const cloudinaryUploadPreset = "upcycle";
+
+  // Debug environment variable
+  useEffect(() => {
+    console.log("NEXT_PUBLIC_BASE_API:", process.env.NEXT_PUBLIC_BASE_API);
+    if (!process.env.NEXT_PUBLIC_BASE_API) {
+      console.error(
+        "NEXT_PUBLIC_BASE_API is undefined. Check .env.local or Vercel environment variables."
+      );
+      toast.error("Configuration error: API base URL is missing");
+      setError("Configuration error: API base URL is missing");
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Fetch listing data on mount
+  useEffect(() => {
+    if (!process.env.NEXT_PUBLIC_BASE_API) return;
+
+    async function fetchListing() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`
+        );
+        if (!res.ok) {
+          throw new Error(`Failed to fetch listing: ${res.statusText}`);
+        }
+        const data = await res.json();
+
+        console.log(data);
+        setFormData({
+          title: data?.data?.title,
+          description: data?.data?.description || "",
+          category: data?.data?.category,
+          price: data?.data?.price,
+          condition: data?.data?.condition,
+          images: data?.data?.images || [],
+        });
+      } catch (err) {
+        setError("Failed to load listing data");
+        toast.error("Failed to load listing data");
+        console.error("Fetch error:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchListing();
+  }, [id]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -93,6 +118,11 @@ export default function Page() {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    if (!process.env.NEXT_PUBLIC_BASE_API) {
+      toast.error("Cannot submit: API base URL is missing");
+      return;
+    }
+
     setIsSubmitting(true);
     setErrors({});
 
@@ -101,8 +131,6 @@ export default function Page() {
     if (!formData.description)
       newErrors.description = "Description is required";
     if (!formData.category) newErrors.category = "Category is required";
-    if (!formData.brand) newErrors.brand = "Brand is required";
-    if (!formData.status) newErrors.status = "Status is required";
     if (formData.price <= 0) newErrors.price = "Price must be greater than 0";
     if (!formData.condition) newErrors.condition = "Condition is required";
     if (formData.images.length === 0)
@@ -111,60 +139,96 @@ export default function Page() {
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       setIsSubmitting(false);
+      toast.error("Please fill in all required fields");
       return;
     }
 
     try {
-      // Upload images to Cloudinary
+      // Upload new images to Cloudinary if they are Files
       const imageUrls = await Promise.all(
-        (formData.images as File[]).map((file) => uploadImageToCloudinary(file))
+        formData.images.map(async (image) => {
+          if (typeof image === "string") {
+            return image;
+          }
+          return await uploadImageToCloudinary(image);
+        })
       );
-      console.log(imageUrls);
 
       // Prepare submission data
       const submissionData = {
         ...formData,
-        images: imageUrls, // Replace File[] with Cloudinary URLs
+        images: imageUrls,
       };
 
-      const res = await addProduct(submissionData);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(submissionData),
+        }
+      );
 
-      console.log("submitData =>", submissionData, "res data =>", res);
-
-      console.log("Add product response:", res);
-      if (!res.success) {
-        toast.error(res.message);
-        throw new Error(`Failed to submit product`);
+      if (!res.ok) {
+        throw new Error(`Failed to update listing: ${res.statusText}`);
       }
 
-      if (res.success) toast.success(res.message);
-      setFormData({
-        title: "",
-        description: "",
-        category: "",
-        brand: "",
-        status: "",
-        price: 0,
-        condition: "",
-        images: [],
-      });
+      toast.success("Listing updated successfully!");
+      router.push("/dashboard");
     } catch (error) {
       console.error("Submission error:", error);
-      // alert("Failed to submit product");
+      toast.error("Failed to update listing");
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
+        <svg
+          className="animate-spin h-8 w-8 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          ></circle>
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800">
+        <p className="text-white text-lg">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-8 space-y-8 transform transition-all duration-300 hover:shadow-3xl">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
-            Add Product
+            Edit Listing
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            List your product with elegance
+            Update your listing details
           </p>
         </div>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -222,64 +286,6 @@ export default function Page() {
               )}
             </div>
 
-            {/* Brand */}
-            <div>
-              <label
-                htmlFor="brand"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Brand <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="brand"
-                name="brand"
-                value={formData.brand}
-                onChange={(e) =>
-                  setFormData({ ...formData, brand: e.target.value })
-                }
-                className="mt-1 block w-full rounded-lg border border-gray-200 bg-white/50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all duration-300 hover:border-indigo-300 shadow-sm sm:text-sm"
-              >
-                <option value="">Select brand</option>
-                {brands.map((brand) => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-              </select>
-              {errors.brand && (
-                <p className="mt-1 text-xs text-red-500">{errors.brand}</p>
-              )}
-            </div>
-
-            {/* Status */}
-            <div>
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Status <span className="text-red-500">*</span>
-              </label>
-              <select
-                id="status"
-                name="status"
-                value={formData.status}
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
-                className="mt-1 block w-full rounded-lg border border-gray-200 bg-white/50 px-4 py-3 text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all duration-300 hover:border-indigo-300 shadow-sm sm:text-sm"
-              >
-                <option value="">Select status</option>
-                {statuses.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-              {errors.status && (
-                <p className="mt-1 text-xs text-red-500">{errors.status}</p>
-              )}
-            </div>
-
             {/* Price */}
             <div>
               <label
@@ -298,8 +304,7 @@ export default function Page() {
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    price:
-                      e.target.value === "" ? 0 : parseFloat(e.target.value),
+                    price: parseFloat(e.target.value) || 0,
                   })
                 }
                 className="mt-1 block w-full rounded-lg border border-gray-200 bg-white/50 px-4 py-3 text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none transition-all duration-300 hover:border-indigo-300 shadow-sm sm:text-sm"
@@ -365,7 +370,7 @@ export default function Page() {
               )}
             </div>
 
-            {/* Images - Spans full width, Mandatory */}
+            {/* Images - Spans full width */}
             <div className="md:col-span-2">
               <label
                 htmlFor="images"
@@ -373,7 +378,28 @@ export default function Page() {
               >
                 Product Images <span className="text-red-500">*</span>
               </label>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-lg hover:border-indigo-500 transition-all duration-300 bg-white/50 shadow-sm">
+              {/* Display existing images */}
+              {formData.images.length > 0 &&
+                typeof formData.images[0] === "string" && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {formData.images.map((url, index) => (
+                      <div key={index} className="relative h-16 w-16">
+                        <Image
+                          src={
+                            typeof url === "string"
+                              ? url
+                              : URL.createObjectURL(url)
+                          }
+                          alt={`Image ${index + 1}`}
+                          fill
+                          className="rounded-lg object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              <div className="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-lg hover:border-indigo-500 transition-all duration-300 bg-white/50 shadow-sm">
                 <div className="space-y-2 text-center">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400"
@@ -394,7 +420,7 @@ export default function Page() {
                       htmlFor="images"
                       className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                     >
-                      <span>Upload images</span>
+                      <span>Upload new images</span>
                       <input
                         id="images"
                         name="images"
@@ -403,7 +429,6 @@ export default function Page() {
                         accept="image/*"
                         onChange={handleImageChange}
                         className="sr-only"
-                        required
                       />
                     </label>
                     <p className="pl-1">or drag and drop</p>
@@ -414,18 +439,19 @@ export default function Page() {
               {errors.images && (
                 <p className="mt-1 text-xs text-red-500">{errors.images}</p>
               )}
-              {formData.images.length > 0 && (
-                <p className="mt-2 text-sm text-gray-600">
-                  {formData.images.length} image(s) selected
-                </p>
-              )}
+              {formData.images.length > 0 &&
+                typeof formData.images[0] !== "string" && (
+                  <p className="mt-2 text-sm text-gray-600">
+                    {formData.images.length} new image(s) selected
+                  </p>
+                )}
             </div>
           </div>
 
           <div>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !process.env.NEXT_PUBLIC_BASE_API}
               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
               {isSubmitting ? (
@@ -450,10 +476,10 @@ export default function Page() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Submitting...
+                  Updating...
                 </span>
               ) : (
-                "Add Product"
+                "Update Listing"
               )}
             </button>
           </div>
@@ -462,3 +488,5 @@ export default function Page() {
     </div>
   );
 }
+
+export default EditListingPage;

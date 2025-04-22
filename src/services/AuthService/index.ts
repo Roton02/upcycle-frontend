@@ -20,7 +20,7 @@ export const registerUser = async (userData: FieldValues) => {
     const result = await res.json();
 
     if (result.success) {
-      (await cookies()).set("accessToken", result.data.token);
+      (await cookies()).set("token", result.data.token);
     }
 
     return result;
@@ -36,13 +36,14 @@ export const loginUser = async (userData: FieldValues) => {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: 'include',
       body: JSON.stringify(userData),
     });
 
     const result = await res.json();
 
     if (result.success) {
-      (await cookies()).set("accessToken", result.data.token);
+      (await cookies()).set("token", result.data.token);
     }
 
     return result;
@@ -54,7 +55,7 @@ export const loginUser = async (userData: FieldValues) => {
 export const getCurrentUser = async (): Promise<any | null> => {
   try {
     const cookieStore = await cookies();
-    const tokenCookie = cookieStore.get("accessToken");
+    const tokenCookie = cookieStore.get("token");
 
     if (!tokenCookie?.value) return null;
 
@@ -91,5 +92,5 @@ export const reCaptchaTokenVerification = async (token: string) => {
 };
 
 export const logoutUser = async () => {
-  (await cookies()).delete("accessToken");
+  (await cookies()).delete("token");
 };
