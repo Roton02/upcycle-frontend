@@ -2,6 +2,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter, useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface ProductFormData {
   title: string;
@@ -382,12 +383,19 @@ function EditListingPage() {
                 typeof formData.images[0] === "string" && (
                   <div className="mt-2 flex flex-wrap gap-2">
                     {formData.images.map((url, index) => (
-                      <img
-                        key={index}
-                        src={url}
-                        alt={`Existing image ${index + 1}`}
-                        className="h-16 w-16 rounded-lg object-cover"
-                      />
+                      <div key={index} className="relative h-16 w-16">
+                        <Image
+                          src={
+                            typeof url === "string"
+                              ? url
+                              : URL.createObjectURL(url)
+                          }
+                          alt={`Image ${index + 1}`}
+                          fill
+                          className="rounded-lg object-cover"
+                          sizes="64px"
+                        />
+                      </div>
                     ))}
                   </div>
                 )}

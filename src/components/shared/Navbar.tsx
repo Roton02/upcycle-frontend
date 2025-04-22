@@ -41,7 +41,6 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [cartItems, setCartItems] = useState(2);
   const { user, setIsLoading } = useUser();
-  console.log(user);
 
   // Handle scroll effect by this useEffect
   useEffect(() => {
@@ -64,7 +63,7 @@ export default function Navbar() {
   // handle logout functionality
   const handleLogout = () => {
     logoutUser();
-    setIsLoading(true)
+    setIsLoading(true);
   };
 
   const navLinks = [
@@ -151,10 +150,14 @@ export default function Navbar() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="text-gray-500" />
                   <DropdownMenuItem className="border-b border-b-gray-300">
-                    <Link href={"/profile"} className="hover:text-red-500">Profile</Link>
+                    <Link href={"/profile"} className="hover:text-red-500">
+                      Profile
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="border-b border-b-gray-300">
-                    <Link href={`/dashboard`}  className="hover:text-red-500">Dashboard</Link>
+                    <Link href={`/dashboard`} className="hover:text-red-500">
+                      Dashboard
+                    </Link>
                   </DropdownMenuItem>
                   {/* <DropdownMenuItem>My Shop</DropdownMenuItem> */}
 
@@ -169,10 +172,10 @@ export default function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href={'/login'}>
-              <Button  variant="ghost" size="icon" aria-label="Favorites">
-                <LogIn className="h-5 w-5" />
-              </Button>
+              <Link href={"/login"}>
+                <Button variant="ghost" size="icon" aria-label="Favorites">
+                  <LogIn className="h-5 w-5" />
+                </Button>
               </Link>
             )}
           </div>
