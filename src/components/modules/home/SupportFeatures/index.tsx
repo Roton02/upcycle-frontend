@@ -33,10 +33,10 @@ const features = [
 
 export default function SupportFeatures() {
   return (
-    <div className=" sm:container sm:mx-auto mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10  px-4">
+    <div className=" sm:container sm:mx-auto mt-10 sm:mt-16 grid grid-cols-2  lg:grid-cols-4 gap-10  px-4">
       {features.map((feature, idx) => (
-        <div key={idx} className="flex items-start gap-4">
-          {feature.icon}
+        <div key={idx} className="flex items-center justify-center gap-4">
+          <span> {feature.icon} </span>
           <div>
             <h3 className="font-semibold text-gray-800 dark:text-gray-200 opacity-80 mb-1">
               {feature.title}
