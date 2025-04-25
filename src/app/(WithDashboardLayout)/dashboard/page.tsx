@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -16,7 +15,16 @@ import {
   getSingleUserListing,
 } from "@/services/Products";
 import { useUser } from "@/context/UserContext";
-import { IListing } from "@/types";
+
+export type IListing = {
+  _id: string;
+  title: string;
+  price: number;
+  images?: string | string[];
+  createdAt: string;
+  customerName: string;
+  status: "processing" | "shipped" | "delivered";
+};
 
 function LoadingSpinner() {
   return (
@@ -27,6 +35,7 @@ function LoadingSpinner() {
 }
 
 export default function Dashboard() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [stats, setStats] = useState({
     revenue: { total: 0, growth: 0 },
     orders: { total: 0, growth: 0 },
@@ -35,7 +44,7 @@ export default function Dashboard() {
   });
   // const [recentOrders, setRecentOrders] = useState([]);
   // const [topProducts, setTopProducts] = useState([]);
-  const [listings, setListings] = useState<IListing | undefined>(undefined);
+  const [listings, setListings] = useState<IListing[] | undefined>(undefined);
   const [purchase, setPurchase] = useState([]);
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +68,7 @@ export default function Dashboard() {
   }, [user]);
 
   if (loading) {
-    return <LoadingSpinner />
+    return <LoadingSpinner />;
   }
 
   const statCards = [
@@ -166,7 +175,7 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center">
                     <div>
                       <Link
-                        href={`/admin/orders/${listing?.id}`}
+                        href={`/admin/orders/${listing?._id}`}
                         className="font-medium text-gray-900 hover:text-teal-600"
                       >
                         Order #{listing?._id}

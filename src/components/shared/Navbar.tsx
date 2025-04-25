@@ -162,11 +162,6 @@ export default function Navbar() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="text-gray-500" />
                   <DropdownMenuItem className="border-b border-b-gray-300">
-                    <Link href={"/profile"} className="hover:text-red-500">
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="border-b border-b-gray-300">
                     <Link href={`/dashboard`} className="hover:text-red-500">
                       Dashboard
                     </Link>
