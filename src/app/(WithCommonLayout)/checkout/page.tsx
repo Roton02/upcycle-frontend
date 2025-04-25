@@ -13,6 +13,7 @@ interface CartItem {
   price: number;
   quantity: number;
   images: string | string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userID: any;
 }
 
