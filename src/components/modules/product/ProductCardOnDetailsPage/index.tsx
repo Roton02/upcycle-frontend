@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { Button } from "@/components/ui/button";
-import { Heart, RefreshCw, ShoppingBag, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingBag, ShoppingCart } from "lucide-react";
 
 type ProductType = {
   _id: string;

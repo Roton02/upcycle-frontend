@@ -12,11 +12,11 @@ interface Listing {
   title: string;
   description: string;
   category: string;
-  price: number;
+  price: number | string;
   brand?: string;
   status?: string;
   condition: string;
-  images: string[];
+  images: string | string[];
 }
 
 export default function EditListingPage() {
@@ -136,7 +136,8 @@ export default function EditListingPage() {
     if (!formData.category) newErrors.category = "Category is required";
     // if (!formData.brand) newErrors.brand = "Brand is required";
     // if (!formData.status) newErrors.status = "Status is required";
-    if (formData.price <= 0) newErrors.price = "Price must be greater than 0";
+    if (Number(formData.price) <= 0)
+      newErrors.price = "Price must be greater than 0";
     if (!formData.condition) newErrors.condition = "Condition is required";
     if (formData.images.length === 0 && newImages.length === 0) {
       newErrors.images = "At least one image is required";
@@ -438,17 +439,18 @@ export default function EditListingPage() {
               {/* Display existing images */}
               {formData.images.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-2">
-                  {formData.images.map((url, index) => (
-                    <div key={index} className="relative h-20 w-20">
-                      <Image
-                        src={url || "/placeholder.svg"}
-                        alt={`Product image ${index + 1}`}
-                        fill
-                        className="rounded-md object-cover"
-                        sizes="80px"
-                      />
-                    </div>
-                  ))}
+                  {Array.isArray(formData.images) &&
+                    formData.images.map((url, index) => (
+                      <div key={index} className="relative h-20 w-20">
+                        <Image
+                          src={url || "/placeholder.svg"}
+                          alt={`Product image ${index + 1}`}
+                          fill
+                          className="rounded-md object-cover"
+                          sizes="80px"
+                        />
+                      </div>
+                    ))}
                 </div>
               )}
 
