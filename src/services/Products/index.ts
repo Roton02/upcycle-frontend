@@ -14,7 +14,7 @@ export interface IApiResponse<T> {
 export const addProduct = async (submissionData: ProductFormData) => {
   try {
     const token = (await cookies()).get("token")!.value;
-    console.log(token);
+
     if (!token) {
       return { success: false, message: "No access token found" };
     }
@@ -37,10 +37,6 @@ export const addProduct = async (submissionData: ProductFormData) => {
     }
 
     const result = await res.json();
-    // console.log(result);
-    //     if (!result.success) return {
-    //        success: false, message: result.message
-    //       };
 
     return result?.success !== undefined
       ? result
@@ -60,6 +56,44 @@ export const getSingleProduct = async (
     const result = await res.json();
 
     if (!result.success) return { success: false, message: result.message };
+
+    return result;
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong" };
+  }
+};
+
+export const getPurchaseHistory = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/transactions/purchases/${id}`,
+      {
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+        },
+      }
+    );
+
+    const result = await res.json();
+
+    return result;
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong" };
+  }
+};
+
+export const getSalesHistory = async (id: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/transactions/sales/${id}`,
+      {
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+        },
+      }
+    );
+
+    const result = await res.json();
 
     return result;
   } catch (error: any) {

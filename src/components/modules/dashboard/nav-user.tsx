@@ -25,9 +25,11 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import UserAvater from "./avater";
+import { logoutUser } from "@/services/AuthService";
+import { useUser } from "@/context/UserContext";
 
 export function NavUser() {
-  const user = { name: "Manik Mia", email: "manik@mia.com" };
+  const { user } = useUser();
   const { isMobile } = useSidebar();
 
   return (
@@ -39,17 +41,17 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <UserAvater userName={user?.name || ""} />
+              <UserAvater userName={user?.username || ""} />
 
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user?.name}</span>
+                <span className="truncate font-semibold">{user?.username}</span>
                 <span className="truncate text-xs">{user?.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-[8px] ml-1 bg-black text-white"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -61,8 +63,10 @@ export function NavUser() {
                   <AvatarFallback className="rounded-lg">CN</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-semibold">
+                    {user?.username}
+                  </span>
+                  <span className="truncate text-xs">{user?.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
@@ -89,7 +93,10 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={logoutUser}
+              className="cursor-pointer bg-red-400 rounded"
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>

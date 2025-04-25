@@ -36,7 +36,7 @@ export const loginUser = async (userData: FieldValues) => {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
       body: JSON.stringify(userData),
     });
 
@@ -45,6 +45,57 @@ export const loginUser = async (userData: FieldValues) => {
     if (result.success) {
       (await cookies()).set("token", result.data.token);
     }
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const updateUserProfile = async (
+  id: string | undefined,
+  payload: FieldValues
+) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify(payload),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      (await cookies()).set("token", result.data.token);
+    }
+
+    return result;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+export const resetPassword = async (
+  id: string | undefined,
+  payload: FieldValues
+) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/update-password/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const result = res.json();
 
     return result;
   } catch (error: any) {

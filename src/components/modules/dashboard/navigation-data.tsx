@@ -13,11 +13,6 @@ export const UserDashboardNavigation = [
     icon: LayoutDashboard,
   },
   {
-    title: "Purchase History",
-    url: "/dashboard/purchase-history",
-    icon: ShoppingCart,
-  },
-  {
     title: "Add Product",
     url: "/dashboard/add-product",
     icon: List,
@@ -31,6 +26,11 @@ export const UserDashboardNavigation = [
     title: "Sales History",
     url: "/dashboard/sales-history",
     icon: TrendingUp,
+  },
+  {
+    title: "Purchase History",
+    url: "/dashboard/purchase-history",
+    icon: ShoppingCart,
   },
   {
     title: "Edit Profile",
