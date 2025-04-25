@@ -38,7 +38,7 @@ export default function ProductSlider({ images, totalSliderImage }: Props) {
   };
 
   const displayImages = fillToLength(images, totalSliderImage, DEFAULT_IMAGE);
-
+  console.log(images.length);
   return (
     <div>
       <Swiper
@@ -48,7 +48,7 @@ export default function ProductSlider({ images, totalSliderImage }: Props) {
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2 h-[400px] mb-3"
       >
-        {displayImages.map((imgSrc, index) => (
+        {images?.map((imgSrc, index) => (
           <SwiperSlide key={index}>
             <div className="w-2/3 h-full mx-auto rounded-xl overflow-hidden relative">
               <Image
@@ -66,20 +66,41 @@ export default function ProductSlider({ images, totalSliderImage }: Props) {
       <Swiper
         onSwiper={setThumbsSwiper}
         spaceBetween={4}
-        slidesPerView={totalSliderImage}
+        breakpoints={{
+          0: {
+            slidesPerView: Math.min(4, images.length),
+            spaceBetween: 4,
+          },
+          480: {
+            slidesPerView: Math.min(4, images.length),
+            spaceBetween: 6,
+          },
+          640: {
+            slidesPerView: Math.min(5, images.length),
+            spaceBetween: 8,
+          },
+          768: {
+            slidesPerView: Math.min(6, images.length),
+            spaceBetween: 10,
+          },
+          1024: {
+            slidesPerView: Math.min(images.length, totalSliderImage),
+            spaceBetween: 12,
+          },
+        }}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper"
       >
-        {displayImages.map((imgSrc, index) => (
+        {images.map((imgSrc, index) => (
           <SwiperSlide
             key={index}
             className="opacity-50 blur-[1px] transition-all duration-300 swiper-slide-thumb"
           >
-            <div className="relative w-[80px] h-[80px] overflow-hidden rounded">
+            <div className="relative w-full aspect-square max-w-[80px] overflow-hidden rounded">
               <Image
-                src={imgSrc}
+                src={imgSrc || "/placeholder.svg"}
                 alt={`Thumbnail ${index + 1}`}
                 fill
                 onError={handleImageError}

@@ -51,7 +51,7 @@ export default function AllProduct() {
   const [totalPages, setTotalPages] = useState(1);
   const PRODUCTS_PER_PAGE = 12;
   // Status options
-  const statusOptions = ["Sale", "In Stock", "Same Day Delivery"];
+  // const statusOptions = ["Sale", "In Stock", "Same Day Delivery"];
 
   // Category options with counts
   const categoryOptions = [
@@ -72,7 +72,7 @@ export default function AllProduct() {
   ].map((name) => ({ name, count: 0 }));
 
   // Condition options
-  const conditionOptions = ["New", "Used", "Refurbished", "Open Box"];
+  // const conditionOptions = ["New", "Used", "Refurbished", "Open Box"];
 
   // Update URL with filters
   const updateFilters = (

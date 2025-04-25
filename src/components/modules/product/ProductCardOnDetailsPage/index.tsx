@@ -1,47 +1,85 @@
 import Image from "next/image";
-import cardImage from '../../../../../public/iphone-14-plus.png'
-import { Rating } from '@smastrom/react-rating'
-
-import '@smastrom/react-rating/style.css'
+import { Rating } from "@smastrom/react-rating";
+import "@smastrom/react-rating/style.css";
 import { Button } from "@/components/ui/button";
-import { Heart, RefreshCw, ShoppingCart } from "lucide-react";
+import { Heart, RefreshCw, ShoppingBag, ShoppingCart } from "lucide-react";
 
-export default function ProductsCardOnDetailsPage() {
-    return (
-        <div className="w-full p-6 border border-[#E0E5EB] rounded-[8px]">
-            <div className="flex items-center gap-4 mb-7">
-                <div>
-                    <Image
-                        src={cardImage}
-                        alt="product image"
-                    />
-                </div>
-                <div className="space-y-2">
-                    <div className="flex items-center gap-1 text-xs text-[#9CA3AF] font-normal">
-                        <Rating
-                            style={{ maxWidth: 80 }}
-                            value={3}
-                            readOnly
-                        />
-                        68
-                    </div>
-                    <h2 className="text-sm text-[#181D25] font-medium dark:text-gray-100">Apple iPhone 14 Plus 128GB Blue</h2>
-                    <p className="text-xl text-[#181D25] font-semibold dark:text-gray-100">$940.00</p>
-                </div>
-            </div>
+type ProductType = {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  brand: string;
+  price: number;
+  condition: string;
+  images: string[];
+  status: string;
+  userID: {
+    _id: string;
+    email: string;
+    phone: string;
+  };
+  deliveryOptions: any[];
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+};
 
-            <div className="w-full grid md:grid-cols-2 lg:grid-cols-3 items-center gap-4">
-                <Button className="w-full md:col-span-2 lg:col-span-1  text-sm text-white font-medium bg-[#F55266] hover:bg-[#cd4454] rounded-[8px]">
-                    <ShoppingCart />
-                    Add to cart
-                </Button>
-                <Button className="text-sm text-[#333D4C] font-medium bg-[#EEF1F6] hover:bg-[#c9ccd0] rounded-[8px]">
-                    <Heart />
-                </Button>
-                <Button className="text-sm text-[#333D4C] font-medium bg-[#EEF1F6] hover:bg-[#c9ccd0] rounded-[8px]">
-                    <RefreshCw />
-                </Button>
-            </div>
+type Props = {
+  product: ProductType;
+};
+
+export default function ProductsCardOnDetailsPage({ product }: Props) {
+  const productImage =
+    product.images && product.images.length > 0
+      ? product.images[0]
+      : "/placeholder.svg?height=200&width=200";
+
+  return (
+    <div className="relative w-full p-6 bg-white border border-[#E0E5EB] dark:bg-gray-900 dark:border-gray-700 rounded-xl shadow-md transition-all hover:shadow-lg">
+      {/* Heart Icon Top Right */}
+      <Button
+        size="icon"
+        className="absolute top-4 right-4 bg-[#EEF1F6] hover:bg-[#d6dae1] text-gray-800 dark:text-gray-200 rounded-full p-2 shadow-sm transition"
+      >
+        <Heart className="w-5 h-5" />
+      </Button>
+
+      {/* Product Info */}
+      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-6">
+        <div className="relative w-24 h-24 shrink-0 rounded-lg overflow-hidden">
+          <Image
+            src={productImage}
+            alt={product.title}
+            fill
+            className="object-contain"
+          />
         </div>
-    )
+        <div className="text-center sm:text-left space-y-2">
+          <div className="flex items-center justify-center sm:justify-start gap-1 text-xs text-gray-500 dark:text-gray-400">
+            <Rating style={{ maxWidth: 80 }} value={3} readOnly />
+            <span>68 reviews</span>
+          </div>
+          <h2 className="text-base sm:text-lg font-medium text-gray-900 dark:text-gray-100">
+            {product.title}
+          </h2>
+          <p className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
+            ${product.price.toFixed(2)}
+          </p>
+        </div>
+      </div>
+
+      {/* Buttons Section */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <Button className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold text-sm py-2 rounded-lg transition-all flex items-center justify-center">
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          Add to cart
+        </Button>
+        <Button className="bg-[#22C55E] hover:bg-[#16A34A] text-white font-semibold text-sm py-2 rounded-lg transition-all flex items-center justify-center">
+          <ShoppingBag className="w-4 h-4 mr-2" />
+          Buy Now
+        </Button>
+      </div>
+    </div>
+  );
 }
