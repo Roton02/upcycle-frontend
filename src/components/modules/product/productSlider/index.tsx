@@ -37,7 +37,7 @@ export default function ProductSlider({ images, totalSliderImage }: Props) {
     event.currentTarget.src = DEFAULT_IMAGE;
   };
 
-  const displayImages = fillToLength(images, totalSliderImage, DEFAULT_IMAGE);
+  // const displayImages = fillToLength(images, totalSliderImage, DEFAULT_IMAGE);
   console.log(images.length);
   return (
     <div>

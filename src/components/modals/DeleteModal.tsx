@@ -23,8 +23,8 @@ export default function DeleteModal({
         </h2>
         <p className="mb-6 text-gray-600">
           Are you sure you want to delete{" "}
-          <span className="font-semibold">"{itemTitle}"</span>? This action
-          cannot be undone.
+          <span className="font-semibold">&quot;{itemTitle}&quot;</span>? This
+          action cannot be undone.
         </p>
         <div className="flex justify-end space-x-4">
           <button

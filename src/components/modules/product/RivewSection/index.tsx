@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Rating } from "@smastrom/react-rating";
 import {
-  CornerDownRight,
+  // CornerDownRight,
   PenLine,
   // Star,
-  ThumbsDown,
-  ThumbsUp,
+  // ThumbsDown,
+  // ThumbsUp,
 } from "lucide-react";
 
 import "@smastrom/react-rating/style.css";

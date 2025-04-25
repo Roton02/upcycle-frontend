@@ -2,7 +2,7 @@
 
 import registerImage from "../../../../../public/login-img.png";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -46,11 +46,15 @@ export default function RegisterForm() {
     console.log(payload);
     try {
       const res = await registerUser(payload);
-      
+
       if (!res.success) toast.error(res.message);
       if (res.success) {
         toast.success(res.message);
-        redirect ? router.push(redirect) : router.push("/");
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/");
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -200,15 +204,21 @@ export default function RegisterForm() {
             <div className="flex flex-wrap justify-center gap-4">
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <GoalIcon />
-                <span className="text-[#333D4C] font-normal  dark:text-gray-300">Google</span>
+                <span className="text-[#333D4C] font-normal  dark:text-gray-300">
+                  Google
+                </span>
               </Button>
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <Facebook />
-                <span className="text-[#333D4C] font-normal dark:text-gray-300">Facebook</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  Facebook
+                </span>
               </Button>
               <Button className="w-32 h-12 border border-[#E0E5EB] rounded-[8px]">
                 <Github />
-                <span className="text-[#333D4C] font-normal dark:text-gray-300">GitHub</span>
+                <span className="text-[#333D4C] font-normal dark:text-gray-300">
+                  GitHub
+                </span>
               </Button>
             </div>
           </div>
