@@ -67,21 +67,29 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { name: "Collections", href: "/collections" },
-    { name: "Brands", href: "/brands" },
-    { name: "Stores", href: "/stores" },
+    { name: "Collections", href: "/products" },
+    // { name: "Brands", href: "/brands" },
+    // { name: "Stores", href: "/stores" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
     { name: "Sale", href: "/sale", highlight: true },
   ];
 
   const categories = [
-    { name: "Electronics", href: "/category/electronics" },
     { name: "Clothing", href: "/category/clothing" },
-    { name: "Home & Garden", href: "/category/home-garden" },
-    { name: "Sports & Outdoors", href: "/category/sports-outdoors" },
-    { name: "Beauty & Personal Care", href: "/category/beauty" },
+    { name: "Electronics", href: "/category/electronics" },
+    { name: "Accessories", href: "/category/accessories" },
+    { name: "Furniture", href: "/category/furniture" },
+    { name: "Home Appliances", href: "/category/home-appliances" },
+    { name: "Vehicles", href: "/category/vehicles" },
+    { name: "Books & Stationery", href: "/category/books-stationery" },
     { name: "Toys & Games", href: "/category/toys-games" },
+    { name: "Sports & Fitness", href: "/category/sports-fitness" },
+    { name: "Musical Instruments", href: "/category/musical-instruments" },
+    { name: "Beauty & Personal Care", href: "/category/beauty-personal-care" },
+    { name: "Pet Supplies", href: "/category/pet-supplies" },
+    { name: "Tools & Hardware", href: "/category/tools-hardware" },
+    { name: "Others", href: "/category/others" },
   ];
 
   return (
