@@ -18,17 +18,17 @@ type Props = {
 };
 
 // Utility to ensure a minimum length array
-const fillToLength = (
-  arr: string[],
-  targetLength: number,
-  fillValue: string
-): string[] => {
-  const newArr = [...arr];
-  while (newArr.length < targetLength) {
-    newArr.push(fillValue);
-  }
-  return newArr;
-};
+// const fillToLength = (
+//   arr: string[],
+//   targetLength: number,
+//   fillValue: string
+// ): string[] => {
+//   const newArr = [...arr];
+//   while (newArr.length < targetLength) {
+//     newArr.push(fillValue);
+//   }
+//   return newArr;
+// };
 
 export default function ProductSlider({ images, totalSliderImage }: Props) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
