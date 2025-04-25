@@ -100,3 +100,81 @@ export const getSalesHistory = async (id: string) => {
     return { success: false, message: error.message || "Something went wrong" };
   }
 };
+
+export const updateProduct = async (
+  id: string,
+  submissionData: ProductFormData
+) => {
+  try {
+    const token = (await cookies()).get("token")?.value;
+    if (!token) {
+      return { success: false, message: "No access token found" };
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        credentials: "include",
+        body: JSON.stringify(submissionData),
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      return {
+        success: false,
+        message: errorData?.message || `HTTP ${res.status}: ${res.statusText}`,
+      };
+    }
+
+    const result = await res.json();
+
+    return result?.success !== undefined
+      ? result
+      : { success: false, message: "Invalid response format" };
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong" };
+  }
+};
+
+export const deleteProduct = async (id: string): Promise<IApiResponse<undefined>> => {
+  try {
+    const token = (await cookies()).get("token")?.value;
+    if (!token) {
+      return { success: false, message: "No access token found" };
+    }
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        credentials: "include",
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      return {
+        success: false,
+        message: errorData?.message || `HTTP ${res.status}: ${res.statusText}`,
+      };
+    }
+
+    const result = await res.json();
+
+    return result?.success !== undefined
+      ? result
+      : { success: false, message: "Invalid response format" };
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong" };
+  }
+};

@@ -75,7 +75,7 @@ export default function ReviewSection() {
       </div>
 
       {/* customer review */}
-      <div className="my-8 border-b-2 border-b-[#E0E5EB] pb-4">
+      {/* <div className="my-8 border-b-2 border-b-[#E0E5EB] pb-4">
         <div className="flex justify-between items-center">
           <h3 className="text-[#181D25] font-semibold dark:text-gray-100">
             Rafael Marquez
@@ -149,7 +149,7 @@ export default function ReviewSection() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

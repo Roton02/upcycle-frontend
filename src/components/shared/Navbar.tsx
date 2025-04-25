@@ -41,7 +41,6 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [cartItems, setCartItems] = useState(2);
   const { user, setIsLoading } = useUser();
-  console.log(user);
 
   // Handle scroll effect by this useEffect
   useEffect(() => {
@@ -64,25 +63,33 @@ export default function Navbar() {
   // handle logout functionality
   const handleLogout = () => {
     logoutUser();
-    setIsLoading(true)
+    setIsLoading(true);
   };
 
   const navLinks = [
-    { name: "Collections", href: "/collections" },
-    { name: "Brands", href: "/brands" },
-    { name: "Stores", href: "/stores" },
+    { name: "Collections", href: "/products" },
+    // { name: "Brands", href: "/brands" },
+    // { name: "Stores", href: "/stores" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
     { name: "Sale", href: "/sale", highlight: true },
   ];
 
   const categories = [
-    { name: "Electronics", href: "/category/electronics" },
     { name: "Clothing", href: "/category/clothing" },
-    { name: "Home & Garden", href: "/category/home-garden" },
-    { name: "Sports & Outdoors", href: "/category/sports-outdoors" },
-    { name: "Beauty & Personal Care", href: "/category/beauty" },
+    { name: "Electronics", href: "/category/electronics" },
+    { name: "Accessories", href: "/category/accessories" },
+    { name: "Furniture", href: "/category/furniture" },
+    { name: "Home Appliances", href: "/category/home-appliances" },
+    { name: "Vehicles", href: "/category/vehicles" },
+    { name: "Books & Stationery", href: "/category/books-stationery" },
     { name: "Toys & Games", href: "/category/toys-games" },
+    { name: "Sports & Fitness", href: "/category/sports-fitness" },
+    { name: "Musical Instruments", href: "/category/musical-instruments" },
+    { name: "Beauty & Personal Care", href: "/category/beauty-personal-care" },
+    { name: "Pet Supplies", href: "/category/pet-supplies" },
+    { name: "Tools & Hardware", href: "/category/tools-hardware" },
+    { name: "Others", href: "/category/others" },
   ];
 
   return (
@@ -151,10 +158,14 @@ export default function Navbar() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator className="text-gray-500" />
                   <DropdownMenuItem className="border-b border-b-gray-300">
-                    <Link href={"/profile"} className="hover:text-red-500">Profile</Link>
+                    <Link href={"/profile"} className="hover:text-red-500">
+                      Profile
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="border-b border-b-gray-300">
-                    <Link href={`/dashboard`}  className="hover:text-red-500">Dashboard</Link>
+                    <Link href={`/dashboard`} className="hover:text-red-500">
+                      Dashboard
+                    </Link>
                   </DropdownMenuItem>
                   {/* <DropdownMenuItem>My Shop</DropdownMenuItem> */}
 
@@ -169,10 +180,10 @@ export default function Navbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href={'/login'}>
-              <Button  variant="ghost" size="icon" aria-label="Favorites">
-                <LogIn className="h-5 w-5" />
-              </Button>
+              <Link href={"/login"}>
+                <Button variant="ghost" size="icon" aria-label="Favorites">
+                  <LogIn className="h-5 w-5" />
+                </Button>
               </Link>
             )}
           </div>
