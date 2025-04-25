@@ -47,7 +47,7 @@ export const addProduct = async (submissionData: ProductFormData) => {
 };
 
 export const getSingleProduct = async (
-  id: string
+  id: string | undefined
 ): Promise<IApiResponse<IListing | undefined>> => {
   try {
     const res = await fetch(
@@ -63,7 +63,7 @@ export const getSingleProduct = async (
   }
 };
 
-export const getPurchaseHistory = async (id: string) => {
+export const getPurchaseHistory = async (id: string | undefined) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/transactions/purchases/${id}`,
@@ -82,7 +82,7 @@ export const getPurchaseHistory = async (id: string) => {
   }
 };
 
-export const getSalesHistory = async (id: string) => {
+export const getSalesHistory = async (id: string | undefined) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/transactions/sales/${id}`,
@@ -142,7 +142,28 @@ export const updateProduct = async (
   }
 };
 
-export const deleteProduct = async (id: string): Promise<IApiResponse<undefined>> => {
+export const getSingleUserListing = async (id: string | undefined) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/listings/own/${id}`,
+      {
+        headers: {
+          Authorization: (await cookies()).get("token")!.value,
+        },
+      }
+    );
+
+    const result = await res.json();
+
+    return result;
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong" };
+  }
+};
+
+export const deleteProduct = async (
+  id: string
+): Promise<IApiResponse<undefined>> => {
   try {
     const token = (await cookies()).get("token")?.value;
     if (!token) {
