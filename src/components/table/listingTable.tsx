@@ -42,7 +42,7 @@ const ListingTable = ({ listings, onEdit, onDelete }: ListingTableProps) => {
         <tbody>
           {listings.map((item) => (
             <tr
-              key={item.id}
+              key={item._id}
               className="border-b border-gray-200 transition hover:bg-blue-50"
             >
               <td className="px-6 py-4 text-sm">{item.title}</td>
