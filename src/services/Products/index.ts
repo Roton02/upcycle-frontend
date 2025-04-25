@@ -102,8 +102,8 @@ export const getSalesHistory = async (id: string) => {
 };
 
 export const updateProduct = async (
-  id: string,
-  submissionData: ProductFormData
+  id: string | string[] | undefined,
+  submissionData: any
 ) => {
   try {
     const token = (await cookies()).get("token")?.value;
@@ -160,6 +160,42 @@ export const deleteProduct = async (id: string): Promise<IApiResponse<undefined>
         credentials: "include",
       }
     );
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      return {
+        success: false,
+        message: errorData?.message || `HTTP ${res.status}: ${res.statusText}`,
+      };
+    }
+
+    const result = await res.json();
+
+    return result?.success !== undefined
+      ? result
+      : { success: false, message: "Invalid response format" };
+  } catch (error: any) {
+    return { success: false, message: error.message || "Something went wrong" };
+  }
+};
+
+export const createOrder = async (orderData: any) => {
+  try {
+    const token = (await cookies()).get("token")?.value;
+
+    if (!token) {
+      return { success: false, message: "No access token found" };
+    }
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/transactions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      credentials: "include",
+      body: JSON.stringify(orderData),
+    });
 
     if (!res.ok) {
       const errorData = await res.json().catch(() => ({}));
