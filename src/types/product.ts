@@ -16,6 +16,7 @@ export interface IListing {
         email: string;
         phone: string;
     };
+    length: number
 
     // Optional Fields
     model?: string
