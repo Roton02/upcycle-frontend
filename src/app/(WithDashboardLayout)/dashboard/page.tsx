@@ -27,7 +27,7 @@ function LoadingSpinner() {
 }
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     revenue: { total: 0, growth: 0 },
     orders: { total: 0, growth: 0 },
     products: { total: 0 },
@@ -35,7 +35,7 @@ export default function Dashboard() {
   });
   // const [recentOrders, setRecentOrders] = useState([]);
   // const [topProducts, setTopProducts] = useState([]);
-  const [listings, setListings] = useState<IListing | undefined>(undefined);
+  const [listings, setListings] = useState<IListing[] | undefined>(undefined);
   const [purchase, setPurchase] = useState([]);
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,7 +52,6 @@ export default function Dashboard() {
       setSales(sales);
       setLoading(false);
 
-      console.log(user, dbListing, purchase?.length, sales?.length);
     };
 
     allLesting();
@@ -113,29 +112,6 @@ export default function Dashboard() {
                   {stat.icon}
                 </div>
               </div>
-
-              {/* <div className="flex items-center mt-4">
-                {stat.change > 0 ? (
-                  <>
-                    <ArrowUpRight size={16} className="text-green-500 mr-1" />
-                    <span className="text-green-500 text-sm font-medium">
-                      {stat.change.toFixed(1)}%
-                    </span>
-                  </>
-                ) : stat.change < 0 ? (
-                  <>
-                    <ArrowDownRight size={16} className="text-red-500 mr-1" />
-                    <span className="text-red-500 text-sm font-medium">
-                      {Math.abs(stat.change).toFixed(1)}%
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-gray-500 text-sm">No change</span>
-                )}
-                <span className="text-gray-500 text-sm ml-1">
-                  vs last month
-                </span>
-              </div> */}
             </div>
           </div>
         ))}
@@ -162,11 +138,12 @@ export default function Dashboard() {
               </div>
             ) : (
               listings?.map((listing) => (
+                console.log(listing),
                 <div key={listing?._id} className="px-6 py-4 hover:bg-gray-50">
                   <div className="flex justify-between items-center">
                     <div>
                       <Link
-                        href={`/admin/orders/${listing?.id}`}
+                        href={`/admin/orders/${listing?._id}`}
                         className="font-medium text-gray-900 hover:text-teal-600"
                       >
                         Order #{listing?._id}
@@ -175,9 +152,9 @@ export default function Dashboard() {
                         <Clock size={14} className="mr-1" />
                         {new Date(listing?.createdAt).toLocaleDateString()}
                       </div>
-                      <div className="text-sm text-gray-600 mt-1">
+                      {/* <div className="text-sm text-gray-600 mt-1">
                         {listing?.customerName}
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="text-right">
@@ -188,11 +165,11 @@ export default function Dashboard() {
                         <span
                           className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
                             ${
-                              listing.status === "processing"
+                              listing.status === "reserved"
                                 ? "bg-yellow-100 text-yellow-800"
-                                : listing.status === "shipped"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-green-100 text-green-800"
+                                : listing.status === "sold"
+                                ? "bg-green-100 text-green-800"
+                                : "bg-blue-100 text-blue-800"
                             }`}
                         >
                           {listing.status.charAt(0).toUpperCase() +
@@ -206,63 +183,6 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-
-        {/* Quick Stats */}
-        {/* <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="px-6 py-4 border-b">
-            <h2 className="font-bold text-lg">Quick Stats</h2>
-          </div>
-
-          <div className="p-6">
-            <div className="space-y-6">
-              //Popular Products
-              <div>
-                <h3 className='font-medium text-gray-600 mb-3'>
-                  Popular Products
-                </h3>
-                <ul className='space-y-2'>
-                  {topProducts.map((product) => (
-                    <li
-                      key={product.id}
-                      className='flex items-center justify-between'
-                    >
-                      <Link
-                        href={`/admin/products/${product.id}`}
-                        className='text-sm text-gray-900 hover:text-teal-600 truncate flex-1'
-                      >
-                        {product.name}
-                      </Link>
-                      <span className='text-sm font-medium ml-2'>
-                        {product.totalSold} sold
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              //Quick Actions
-              <div>
-                <h3 className="font-medium text-gray-600 mb-3">
-                  Quick Actions
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <Link
-                    href="/admin/products/add"
-                    className="flex justify-center items-center py-2 bg-teal-50 text-teal-600 rounded-md hover:bg-teal-100 transition-colors text-sm font-medium"
-                  >
-                    Add Product
-                  </Link>
-                  <Link
-                    href="/admin/orders"
-                    className="flex justify-center items-center py-2 bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 transition-colors text-sm font-medium"
-                  >
-                    View Orders
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

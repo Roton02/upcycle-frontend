@@ -1,4 +1,6 @@
 "use client";
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRouter } from "next/navigation";
 import ProductDetailsSection from "@/components/modules/product/DetailsSection";
 import ProductSlider from "@/components/modules/product/productSlider";
@@ -11,18 +13,21 @@ import {
   CircleCheckBig,
   MapPin,
   ShoppingBag,
-  //   ShoppingCart,
+  ShoppingCart,
 } from "lucide-react";
-// import { toast } from "sonner";
+import { toast } from "sonner";
+import { useUser } from "@/context/UserContext";
 
 export default function ProductDetailsClient({ data }: { data: any }) {
   const router = useRouter();
+  const { setIsLoading } = useUser();
 
-  //   const handleAddToCart = () => {
-  //     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-  //     localStorage.setItem("cart", JSON.stringify([...existingCart, data]));
-  //     toast.success("Added to cart!");
-  //   };
+  const handleAddToCart = () => {
+    const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    localStorage.setItem("cart", JSON.stringify([...existingCart, data]));
+    setIsLoading(true);
+    toast.success("Added to cart!");
+  };
 
   const handleBuyNow = () => {
     localStorage.setItem("cart", JSON.stringify([data]));
@@ -114,13 +119,13 @@ export default function ProductDetailsClient({ data }: { data: any }) {
 
           <div className="flex items-center gap-4 mt-4 mb-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* <Button
+              <Button
                 onClick={handleAddToCart}
                 className="bg-[#3B82F6] hover:bg-[#2563EB] text-white font-semibold text-sm py-2 rounded-lg transition-all flex items-center justify-center"
               >
                 <ShoppingCart className="w-4 h-4 mr-2" />
                 Add to cart
-              </Button> */}
+              </Button>
               <Button
                 onClick={handleBuyNow}
                 className="bg-[#22C55E] hover:bg-[#16A34A] text-white font-semibold text-sm py-2 rounded-lg transition-all flex items-center justify-center"

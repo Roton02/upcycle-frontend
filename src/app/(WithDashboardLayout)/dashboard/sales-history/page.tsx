@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCurrentUser } from "@/services/AuthService";
 import { getSalesHistory } from "@/services/Products";
 import Image from "next/image";

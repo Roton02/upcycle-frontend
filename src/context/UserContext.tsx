@@ -1,7 +1,7 @@
 "use client";
 
 import { getCurrentUser } from "@/services/AuthService";
-import { IUser } from "@/types";
+import { IListing, IUser } from "@/types";
 import {
   createContext,
   Dispatch,
@@ -16,12 +16,14 @@ interface IUserProviderValues {
   isLoading: boolean;
   setUser: Dispatch<SetStateAction<IUser | null>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  cartItem: IListing[]; 
 }
 
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
 const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [cartItems, setCartItems] = useState<IListing[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleUser = async () => {
@@ -31,11 +33,19 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    const cart = localStorage.getItem("cart");
+    if (cart) {
+      setCartItems(JSON.parse(cart));
+    }
+  }, [isLoading]);
+  console.log(cartItems);
+
+  useEffect(() => {
     handleUser();
   }, [isLoading]);
 
   return (
-    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading, cartItem: cartItems }}>
       {children}
     </UserContext.Provider>
   );

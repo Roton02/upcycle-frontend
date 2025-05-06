@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCurrentUser } from "@/services/AuthService";
 import { getPurchaseHistory } from "@/services/Products";
 import Image from "next/image";
 
 export interface PurchaseItem {
+  itemId: any;
   _id: string;
   title: string;
   brand: string;
@@ -80,7 +82,7 @@ export default async function Page() {
             </thead>
             <tbody>
               {data.map((purchase) =>
-                purchase.items.map((item: any) => (
+                purchase.items.map((item: PurchaseItem) => (
                   <tr
                     key={item._id}
                     className="border-b border-gray-200 transition hover:bg-blue-50"

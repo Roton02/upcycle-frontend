@@ -18,6 +18,7 @@ type Props = {
 };
 
 // Utility to ensure a minimum length array
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const fillToLength = (
   arr: string[],
   targetLength: number,
@@ -37,7 +38,7 @@ export default function ProductSlider({ images, totalSliderImage }: Props) {
     event.currentTarget.src = DEFAULT_IMAGE;
   };
 
-  const displayImages = fillToLength(images, totalSliderImage, DEFAULT_IMAGE);
+  // const displayImages = fillToLength(images, totalSliderImage, DEFAULT_IMAGE);
   console.log(images.length);
   return (
     <div>

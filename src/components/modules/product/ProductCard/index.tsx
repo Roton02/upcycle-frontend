@@ -81,7 +81,7 @@ export default function ProductCard({ product }: { product: IListing }) {
                 {product.title}
               </h3>
             </Link>
-            <p className="text-sm text-gray-600 dark:text-gray-400 tracking-wide">
+            <p className="text-sm text-slate-600 dark:text-gray-400 tracking-wide">
               {product.brand} · {product.category}
             </p>
           </div>

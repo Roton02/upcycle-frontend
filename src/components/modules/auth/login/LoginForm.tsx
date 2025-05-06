@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Image from "next/image";
@@ -61,6 +62,42 @@ export default function LoginForm() {
     }
   };
 
+  const handelDemoLogin = async (role: "user" | "admin") => {
+    let payload = null;
+
+    if (role === "user") {
+      payload = {
+        identifire: "demo@gmail.com",
+        password: "123456",
+      };
+    } else if (role === "admin") {
+      toast.error("Admin role not implemented yet", {
+        duration: 1500,
+      });
+      // payload = {
+      //   identifire: "admin@gmail.com",
+      //   password: "admin123",
+      // };
+    }
+
+    try {
+      const res = await loginUser(payload);
+
+      setIsLoading(true);
+      if (!res.success) toast.error(res.message);
+      if (res.success) {
+        toast.success(res.message);
+        if (redirect) {
+          router.push(redirect);
+        } else {
+          router.push("/");
+        }
+      }
+    } catch (err: any) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 w-full h-screen p-3">
       {/* left colum */}
@@ -82,6 +119,27 @@ export default function LoginForm() {
                   Create an account
                 </Link>
               </p>
+
+              <div>
+                <p className="text-lg text-[#4E5562] font-normal dark:text-gray-300">
+                  Demo Credentials:
+                </p>
+                <div className="text-sm text-[#4E5562] font-normal dark:text-gray-300 my-2 space-x-3 mb-4">
+                  <Button
+                    onClick={() => handelDemoLogin("user")}
+                    className="bg-[#F55266] rounded-full text-white/70 hover:text-[#F55266] hover:bg-white hover:shadow-md"
+                  >
+                    Login as user
+                  </Button>
+                  <Button
+                    onClick={() => handelDemoLogin("admin")}
+                    className="bg-[#F55266] rounded-full text-white/70 hover:text-[#F55266] hover:bg-white hover:shadow-md"
+                  >
+                    {" "}
+                    Login as Admin
+                  </Button>
+                </div>
+              </div>
             </div>
 
             <Form {...form}>

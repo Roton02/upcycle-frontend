@@ -27,7 +27,7 @@ interface UserData {
 }
 
 export default function CheckoutPage() {
-  const { user, setIsLoading } = useUser();
+  const { user } = useUser();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [userData, setUserData] = useState<UserData>({ name: "", email: "" });
   const [formData, setFormData] = useState<FormData>({ address: "" });
@@ -191,12 +191,13 @@ export default function CheckoutPage() {
                     value={formData.address}
                     onChange={handleInputChange}
                     required
-                    className="mt-2 block w-full rounded-xl bg-gray-300 p-2 shadow-sm focus:border-gold-300 focus:ring-gold-300 transition duration-300"
+                    className="mt-2 block w-full rounded bg-gray-200 border p-2 shadow-sm focus:border-gold-300 focus:ring-gold-300 transition duration-300 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    placeholder="Enter your address"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-gold-400 to-gold-500 text-blue-900 py-4 rounded-xl hover:from-gold-500 hover:to-gold-600 transition duration-300 shadow-lg transform hover:scale-105"
+                  className="w-full bg-gradient-to-r from-rose-400 to-rose-500 text-white py-4 rounded-xl transition duration-300 shadow-md transform hover:scale-105"
                 >
                   Place Order
                 </button>

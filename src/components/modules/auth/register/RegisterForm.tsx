@@ -1,8 +1,8 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import registerImage from "../../../../../public/login-img.png";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -43,15 +43,19 @@ export default function RegisterForm() {
       password: data?.password,
     };
 
-    console.log(payload);
     try {
       const res = await registerUser(payload);
-      
-      if (!res.success) toast.error(res.message);
-      if (res.success) {
-        toast.success(res.message);
-        redirect ? router.push(redirect) : router.push("/");
-      }
+
+  if (!res.success) {
+    toast.error(res.message);
+  } else {
+    toast.success(res.message);
+    if (redirect) {
+      router.push(redirect);
+    } else {
+      router.push("/");
+    }
+  }
     } catch (err: any) {
       console.error(err);
     }

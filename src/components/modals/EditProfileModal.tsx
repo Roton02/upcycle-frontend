@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -50,7 +51,7 @@ export function EditProfileModal({
         phone: user?.phone || "",
       });
     }
-  }, [user]);
+  }, [user, reset]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     // console.log(data);

@@ -9,7 +9,7 @@ export default function Footer() {
 
   return (
     <footer className="text-gray-900 dark:text-gray-100">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-8 py-12">
         {/* Top section */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand section */}

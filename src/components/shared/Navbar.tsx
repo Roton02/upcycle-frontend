@@ -24,10 +24,8 @@ import {
   LogOut,
   Menu,
   Moon,
-  Search,
   ShoppingCart,
   Sun,
-  User,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -36,11 +34,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { logoutUser } from "@/services/AuthService";
 
 export default function Navbar() {
+  // const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
+  // console.log(existingCart);
+  const { user, setIsLoading, cartItem } = useUser();
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [cartItems, setCartItems] = useState(2);
-  const { user, setIsLoading } = useUser();
+  // const [cartItems, setCartItems] = useState(cartItem?.length);
 
   // Handle scroll effect by this useEffect
   useEffect(() => {
@@ -76,20 +76,20 @@ export default function Navbar() {
   ];
 
   const categories = [
-    { name: "Clothing", href: "/category/clothing" },
-    { name: "Electronics", href: "/category/electronics" },
-    { name: "Accessories", href: "/category/accessories" },
-    { name: "Furniture", href: "/category/furniture" },
-    { name: "Home Appliances", href: "/category/home-appliances" },
-    { name: "Vehicles", href: "/category/vehicles" },
-    { name: "Books & Stationery", href: "/category/books-stationery" },
-    { name: "Toys & Games", href: "/category/toys-games" },
-    { name: "Sports & Fitness", href: "/category/sports-fitness" },
-    { name: "Musical Instruments", href: "/category/musical-instruments" },
-    { name: "Beauty & Personal Care", href: "/category/beauty-personal-care" },
-    { name: "Pet Supplies", href: "/category/pet-supplies" },
-    { name: "Tools & Hardware", href: "/category/tools-hardware" },
-    { name: "Others", href: "/category/others" },
+    { name: "Clothing", href: "/products?search=clothing" },
+    { name: "Electronics", href: "/products?search=electronics" },
+    { name: "Accessories", href: "/products?search=accessories" },
+    { name: "Furniture", href: "/products?search=furniture" },
+    { name: "Home Appliances", href: "/products?search=home-appliances" },
+    { name: "Vehicles", href: "/products?search=vehicles" },
+    { name: "Books & Stationery", href: "/products?search=books-stationery" },
+    { name: "Toys & Games", href: "/products?search=toys-games" },
+    { name: "Sports & Fitness", href: "/products?search=sports-fitness" },
+    { name: "Musical Instruments", href: "/products?search=musical-instruments" },
+    { name: "Beauty & Personal Care", href: "/products?search=beauty-personal-care" },
+    { name: "Pet Supplies", href: "/products?search=pet-supplies" },
+    { name: "Tools & Hardware", href: "/products?search=tools-hardware" },
+    { name: "Others", href: "/products?search=other" },
   ];
 
   return (
@@ -129,7 +129,7 @@ export default function Navbar() {
             </Button>
 
             {/* Cart */}
-            {/* <Link href={"/cart"}>
+            <Link href={"/cart"}>
               <Button
                 variant="ghost"
                 size="icon"
@@ -137,13 +137,13 @@ export default function Navbar() {
                 aria-label="Shopping cart"
               >
                 <ShoppingCart className="h-5 w-5" />
-                {cartItems > 0 && (
+                {cartItem.length > 0 && (
                   <span className="absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {cartItems}
+                    {cartItem.length}
                   </span>
                 )}
               </Button>
-            </Link> */}
+            </Link>
 
             {/* Search */}
 
@@ -274,7 +274,7 @@ export default function Navbar() {
         </div>
 
         {/* Navigation links - desktop */}
-        <nav className="hidden md:flex items-center space-x-6">
+        <nav className="hidden md:flex items-center space-x-6 pr-4">
           {navLinks.map((link) => (
             <Link
               key={link.name}

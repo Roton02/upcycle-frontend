@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Trash2 } from "lucide-react";
 import Image from "next/image";
+import { useUser } from "@/context/UserContext";
 
 interface Product {
   _id: string;
@@ -13,6 +14,7 @@ interface Product {
 }
 
 export default function CartPage() {
+  const { setIsLoading } = useUser();
   const [cartItems, setCartItems] = useState<Product[]>([]);
 
   // Load cart items from localStorage on first render
@@ -26,6 +28,7 @@ export default function CartPage() {
     const updatedCart = cartItems.filter((item) => item._id !== id);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    setIsLoading(true);
   };
 
   // Calculate total price
