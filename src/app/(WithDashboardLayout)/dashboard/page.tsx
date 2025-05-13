@@ -1,4 +1,4 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -36,7 +36,9 @@ export default function Dashboard() {
   // const [recentOrders, setRecentOrders] = useState([]);
   // const [topProducts, setTopProducts] = useState([]);
   const [listings, setListings] = useState<IListing[] | undefined>(undefined);
-  const [purchase, setPurchase] = useState([]);
+  const [purchase, setPurchase] = useState<{
+    totalPrice: any; _id: string; createdAt: string; status: string 
+}[]>([]);
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -117,11 +119,11 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6 rounded">
         {/* Recent Orders */}
-        <div className="lg:col-span-2 bg-white rounded-lg shadow overflow-hidden">
+        <div className="lg:col-span-2 bg-white rounded shadow overflow-hidden">
           <div className="px-6 py-4 border-b flex items-center justify-between">
-            <h2 className="font-bold text-lg text-black">Recent Orders</h2>
+            <h2 className="font-bold text-lg text-black">Recent purchase</h2>
             <Link
               href="/admin/orders"
               className="text-sm text-teal-600 hover:text-teal-700 flex items-center"
@@ -132,25 +134,25 @@ export default function Dashboard() {
           </div>
 
           <div className="divide-y">
-            {listings?.length === 0 ? (
-              <div className="py-8 text-center text-gray-500">
-                No recent orders
+            {purchase?.length === 0 ? (
+              <div className="py-8 text-center text-gray-500 ">
+                No recent purchase
               </div>
             ) : (
-              listings?.map((listing) => (
-                console.log(listing),
-                <div key={listing?._id} className="px-6 py-4 hover:bg-gray-50">
+              purchase?.map((item) => (
+                
+                <div key={item?._id} className="px-6 py-4 hover:bg-gray-50">
                   <div className="flex justify-between items-center">
                     <div>
                       <Link
-                        href={`/admin/orders/${listing?._id}`}
+                        href={`/dashboard/purchase-history`}
                         className="font-medium text-gray-900 hover:text-teal-600"
                       >
-                        Order #{listing?._id}
+                        Order #{item?._id}
                       </Link>
                       <div className="flex items-center mt-1 text-sm text-gray-500">
                         <Clock size={14} className="mr-1" />
-                        {new Date(listing?.createdAt).toLocaleDateString()}
+                        {new Date(item?.createdAt).toLocaleDateString()}
                       </div>
                       {/* <div className="text-sm text-gray-600 mt-1">
                         {listing?.customerName}
@@ -159,21 +161,21 @@ export default function Dashboard() {
 
                     <div className="text-right">
                       <div className="font-medium">
-                        ${listing?.price?.toFixed(2)}
+                        ${item?.totalPrice?.toFixed(2)}
                       </div>
                       <div className="mt-1">
                         <span
                           className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
                             ${
-                              listing.status === "reserved"
+                              item.status === "pending"
                                 ? "bg-yellow-100 text-yellow-800"
-                                : listing.status === "sold"
+                                : item.status === "completed"
                                 ? "bg-green-100 text-green-800"
                                 : "bg-blue-100 text-blue-800"
                             }`}
                         >
-                          {listing.status.charAt(0).toUpperCase() +
-                            listing.status.slice(1)}
+                          {item.status.charAt(0).toUpperCase() +
+                            item.status.slice(1)}
                         </span>
                       </div>
                     </div>

@@ -93,7 +93,7 @@ export default async function Page() {
         <div className="overflow-x-auto rounded-lg shadow-lg">
           <table className="min-w-full rounded-lg bg-white text-gray-800">
             <thead>
-              <tr className="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
+              <tr className="bg-gradient-to-r from-gray-800 to-gray-700 text-white">
                 <th className="px-6 py-4 text-left text-sm font-semibold">
                   Images
                 </th>

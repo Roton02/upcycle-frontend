@@ -1,6 +1,9 @@
 "use client";
 
 import Banner from "@/components/modules/home/Banner";
+import BlogAndNews from "@/components/modules/home/BlogAndNews";
+import Category from "@/components/modules/home/Category";
+import HappyCustomers from "@/components/modules/home/HappyCustomers";
 import NewsletterSection from "@/components/modules/home/NewsLetterSection";
 import SpecialOffers from "@/components/modules/home/SpecialOffers/SpecialOffers";
 import SupportFeatures from "@/components/modules/home/SupportFeatures";
@@ -12,8 +15,11 @@ const HomePage = () => {
       <Banner />
       <SupportFeatures />
       {/* <NewArrivals /> */}
+      <Category />
       <TrendingProducts />
       <SpecialOffers />
+      <HappyCustomers />
+      <BlogAndNews />
       <NewsletterSection />
     </div>
   );
