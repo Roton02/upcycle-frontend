@@ -4,6 +4,7 @@ import { Roboto_Slab } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 
+<link rel="icon" sizes="180x180" href="/UpCycle.scg" /> 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
   weight: ["400", "500", "600", "300", "700"],

@@ -157,7 +157,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-slate-100 dark:bg-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl p-8 space-y-8 transform transition-all duration-300 hover:shadow-3xl">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
@@ -373,7 +373,7 @@ export default function Page() {
               >
                 Product Images <span className="text-red-500">*</span>
               </label>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-lg hover:border-indigo-500 transition-all duration-300 bg-white/50 shadow-sm">
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-lg hover:border-rose-500 transition-all duration-300 bg-white/50 shadow-sm">
                 <div className="space-y-2 text-center">
                   <svg
                     className="mx-auto h-12 w-12 text-gray-400"
@@ -392,7 +392,7 @@ export default function Page() {
                   <div className="flex text-sm text-gray-600">
                     <label
                       htmlFor="images"
-                      className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                      className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-rose-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                     >
                       <span>Upload images</span>
                       <input
@@ -426,10 +426,10 @@ export default function Page() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-rose-500 hover:bg-rose-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
               {isSubmitting ? (
-                <span className="flex items-center">
+                <span className="flex items-center">  
                   <svg
                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"

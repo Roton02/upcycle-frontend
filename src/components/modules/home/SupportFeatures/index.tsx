@@ -33,7 +33,7 @@ const features = [
 
 export default function SupportFeatures() {
   return (
-    <div className="sm:container sm:mx-auto my-10 sm:mt-16 grid grid-cols-2  lg:grid-cols-4 gap-10 px-">
+    <div className="grid grid-cols-2  lg:grid-cols-4 gap-10 bg-gray-200 dark:bg-[#222934] py-14 px-3">
       {features.map((feature, idx) => (
         <div key={idx} className="flex items-center justify-center gap-4">
           <span> {feature.icon} </span>

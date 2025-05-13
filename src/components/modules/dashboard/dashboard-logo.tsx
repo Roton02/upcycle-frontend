@@ -15,7 +15,7 @@ export function DashboardLogo() {
         >
           <div className="flex aspect-square size-10 items-center justify-center rounded-lg ">
             <Link href="/">
-              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-gray-300 drop-shadow-lg">
+              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-600 to-gray-300 drop-shadow-lg ml-8">
                 Upcycle
               </h1>
             </Link>

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import ProductCard from "../../product/ProductCard";
 
-
 export default function TrendingProducts() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -45,19 +44,21 @@ export default function TrendingProducts() {
   return (
     <div className="w-full py-10 px-4 md:px-6 lg:px-8 text-gray-900 dark:text-gray-100">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-semibold text-gray-900 text-center dark:text-gray-100 mb-4 ml-1">
-          New arrivals
-        </h2>
-        <div className="flex justify-end items-center mb-6">
-          <Link
-            href="/products"
-            className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            View all <ChevronRight className="ml-1 h-4 w-4" />
-          </Link>
+        <div className="flex flex-wrap justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            New arrivals
+          </h2>
+          <div className="">
+            <Link
+              href="/products"
+              className="flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              View all <ChevronRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
-        <div className="w-full md:mt-10">
+        <div className="w-full">
           {loading ? (
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-[#333D4C]"></div>

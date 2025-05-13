@@ -22,7 +22,7 @@ const ListingTable = ({ listings, onEdit, onDelete }: ListingTableProps) => {
     <div className="overflow-x-auto rounded-lg shadow-lg">
       <table className="min-w-full rounded-lg bg-white text-gray-800">
         <thead>
-          <tr className="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
+          <tr className="bg-gradient-to-r from-gray-800 to-gray-700 text-white">
             <th className="px-6 py-4 text-left text-sm font-semibold">Title</th>
             <th className="px-6 py-4 text-left text-sm font-semibold">
               Category
@@ -67,7 +67,7 @@ const ListingTable = ({ listings, onEdit, onDelete }: ListingTableProps) => {
                 </button>
                 <button
                   onClick={() => onDelete(item)}
-                  className="rounded-lg bg-red-600 px-3 py-1 text-white transition hover:bg-red-700"
+                  className="rounded-lg bg-red-500 px-3 py-1 text-white transition hover:bg-red-600"
                 >
                   Delete
                 </button>
